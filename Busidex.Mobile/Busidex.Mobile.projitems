@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{95A48FBA-4FCD-46E5-A1BA-738D24B0C479}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Busidex.Mobile</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)LoginController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MyBusidexController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Address.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\State.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Card.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\PhoneNumber.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Tag.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\UserCard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\PhoneNumberType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\MyBusidexResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\MyBusidexCollection.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Models\" />
+  </ItemGroup>
+</Project>
