@@ -24,20 +24,7 @@ namespace Busidex.Mobile
 			return userId;
 		}
 
-		public static UIImage GetImageFromUrl (string uri)
-		{
-			try {
-				using (var url = new NSUrl (uri)) {
-					using (var data = NSData.FromUrl (url)) {
-						//return new UIImage(data);
-						return UIImage.LoadFromData (data);
-					}
-				}
-			} catch (Exception ex) {
 
-			}
-			return null;
-		}
 
 		public const string CARD_PATH = "https://az381524.vo.msecnd.net/cards/";
 	}

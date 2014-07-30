@@ -1,1 +1,1 @@
-update orientation support
+load images async

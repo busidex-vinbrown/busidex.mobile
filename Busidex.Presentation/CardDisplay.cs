@@ -65,7 +65,7 @@ namespace Busidex.Presentation
 			if (UserCard != null && UserCard.Card != null) {
 
 				CardImage = new UIImageView ();
-				CardImage.Image = Busidex.Mobile.Utils.GetImageFromUrl (Busidex.Mobile.Utils.CARD_PATH + UserCard.Card.FrontFileId + "." + UserCard.Card.FrontType);
+				//CardImage.Image = Busidex.Mobile.Utils.GetImageFromUrl (Busidex.Mobile.Utils.CARD_PATH + UserCard.Card.FrontFileId + "." + UserCard.Card.FrontType);
 				CardImage.Frame = new RectangleF (10, 10f, 120f, 80f);
 				this.AddSubview (CardImage);
 

@@ -6,15 +6,23 @@ using System.Collections.ObjectModel;
 using Busidex.Mobile.Models;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Net;
+using System.IO;
 
 namespace Busidex.Presentation.IOS
 {
 	public class TableSource : UITableViewSource {
 		ObservableCollection<UserCard> tableItems;
-		NSString cellIdentifier = new NSString( "BusidexDataCell");
+		//NSString cellIdentifier = new NSString( "BusidexDataCell");
+		string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+		WebClient webClient;
+
 		public TableSource (ObservableCollection<UserCard> items)
 		{
 			tableItems = items;
+
+
 		}
 		public override int RowsInSection (UITableView tableview, int section)
 		{
@@ -33,34 +41,11 @@ namespace Busidex.Presentation.IOS
 		{
 			var cell = tableView.DequeueReusableCell (MyBusidexController.BusidexCellId, indexPath);
 
-			// if there are no cells to reuse, create a new one
-			//if (cell == null) {
-			//var	cell = new BusidexDataCell ((UserCard)tableItems [indexPath.Row], cellIdentifier);
 			cell.SelectionStyle = UITableViewCellSelectionStyle.Default;
 
-			//} else {
-
-			//}
 			var card = (UserCard)tableItems [indexPath.Row];
-
-			//cell.UpdateCell (card);
-//			CardDisplay BusidexCard = null;
-//			if (cell.ContentView.Subviews.Length > 0) {
-//				BusidexCard = cell.ContentView.Subviews [0] as CardDisplay;
-//				cell.ContentView.Subviews [0].RemoveFromSuperview ();
-//			}
-//
-//			if (BusidexCard == null) {
-//				cell.ContentView.Add (new CardDisplay (card));
-//				BusidexCard = cell.ContentView.Subviews [0] as CardDisplay;
-//			} else {
-//				BusidexCard.UserCard = card;
-//			}
-//			BusidexCard.UserInteractionEnabled = true;
-//			cell.UserInteractionEnabled = true;
-//			BusidexCard.UpdateDisplay (card);
+		
 			AddControls (cell, card);
-			//cell.Accessory = UITableViewCellAccessory.DetailDisclosureButton;
 		
 
 			cell.SetNeedsDisplay ();
@@ -86,12 +71,40 @@ namespace Busidex.Presentation.IOS
 			if (card != null && card.Card != null) {
 
 				bool needsCardImage = false;
+
 				CardImage = cell.ContentView.Subviews.Where(s=> s.Tag == 1).SingleOrDefault() as UIImageView ?? new UIImageView ();
 				 
 				needsCardImage = CardImage.Tag <= 0;
 
 				CardImage.Tag = 1;
-				CardImage.Image = Busidex.Mobile.Utils.GetImageFromUrl (Busidex.Mobile.Utils.CARD_PATH + card.Card.FrontFileId + "." + card.Card.FrontType);
+				//var documentsDirectory = Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData);
+				var fileName = System.IO.Path.Combine (documentsPath, card.Card.FrontFileId + "." + card.Card.FrontType);
+				if (File.Exists (fileName)) {
+
+					//using (var data = NSData.FromFile (fileName)) {
+						CardImage.Image = UIImage.FromFile (fileName); 
+					//}
+
+
+				} else {
+					DownloadImage (Busidex.Mobile.Utils.CARD_PATH + card.Card.FrontFileId + "." + card.Card.FrontType, card.Card.FrontFileId + "." + card.Card.FrontType).ContinueWith (t => {
+					
+
+					 	fileName = t.Result;
+						string jpgFilename = System.IO.Path.Combine (documentsPath, fileName);
+
+						using(var f = File.Open(t.Result, FileMode.Open)){
+							//var newFile = File.Create(jpgFilename);
+							//newFile.Close();
+
+							using (var data = NSData.FromFile (jpgFilename)) {
+								CardImage.Image = UIImage.LoadFromData (data); 
+							}
+						}
+					});
+				}
+
+				//CardImage.Image = GetImageFromUrl (Busidex.Mobile.Utils.CARD_PATH + card.Card.FrontFileId + "." + card.Card.FrontType);
 
 				if (needsCardImage) {
 					CardImage.Frame = new RectangleF (10, 10f, 120f, 80f);
@@ -209,10 +222,39 @@ namespace Busidex.Presentation.IOS
 
 		}
 
-		public void DoTap(string text){
+		public async Task<string> DownloadImage(string imagePath, string fileName)
+		{
+			//var documentsDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+			string jpgFilename = System.IO.Path.Combine (documentsPath, fileName);
 
-			UIApplication.SharedApplication.OpenUrl(new NSUrl("mailto:" + text));
+			webClient = new WebClient ();
+			webClient.DownloadDataCompleted += (s, e) => {
+				var bytes = e.Result; // get the downloaded data
+
+				//string localFilename = "downloaded.png";
+				string localPath = Path.Combine (documentsPath, fileName);
+				File.WriteAllBytes (localPath, bytes); // writes to local storage   
+			};
+			//if (!File.Exists (jpgFilename)) {
+			await webClient.DownloadFileTaskAsync (imagePath, jpgFilename);
+			//} 
+
+			return jpgFilename;
 		}
+
+//		private UIImage GetImageFromUrl (string uri)
+//		{
+//			try {
+//				using (var url = new NSUrl (uri)) {
+//					using (var data = NSData.FromUrl (url)) {
+//						return UIImage.LoadFromData (data);
+//					}
+//				}
+//			} catch (Exception ex) {
+//
+//			}
+//			return null;
+//		}
 
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
