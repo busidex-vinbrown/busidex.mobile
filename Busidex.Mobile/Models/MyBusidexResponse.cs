@@ -13,4 +13,3 @@ namespace Busidex.Mobile.Models
 		public MyBusidexCollection MyBusidex{ get; set; }
 	}
 }
-

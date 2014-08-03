@@ -7,7 +7,6 @@ namespace Busidex.Presentation.IOS
 {
 	public partial class DataViewController : UIViewController
 	{
-		LoadingOverlay loadingOverlay;
 
 		public DataViewController (IntPtr handle) : base (handle)
 		{
@@ -35,47 +34,34 @@ namespace Busidex.Presentation.IOS
 			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.Where(c=>c.Name == "UserId").SingleOrDefault();
 			long userId;
 			if (cookie != null) {
-				userId = Busidex.Mobile.Utils.DecodeUserId(cookie.Value);
+				userId = Busidex.Mobile.Utils.DecodeUserId (cookie.Value);
 				if (userId > 0) {
 					UserId = userId;
-					GoToMyBusidex ();
+					SetLoginDisplay (false);
+				} else {
+					SetLoginDisplay (true);
 				}
+			} else {
+				SetLoginDisplay (true);
 			}
 
-
-
-			btnLogin.TouchUpInside += (o,s) => {
-
-				loadingOverlay = new LoadingOverlay (UIScreen.MainScreen.Bounds);
-				View.Add (loadingOverlay);
-
-				string username = txtUserName.Text;
-				string password = txtPassword.Text;
-
-
-				UserId = Busidex.Mobile.LoginController.DoLogin(username, password);
-
-				if(UserId > 0){
-
-					var nCookie = new System.Net.Cookie();
-					nCookie.Name = "UserId";
-					DateTime expiration = DateTime.Now.AddYears(1);
-					nCookie.Expires = expiration;
-					nCookie.Value = EncodeUserId(UserId);
-					cookie = new NSHttpCookie(nCookie);
-
-					NSHttpCookieStorage.SharedStorage.SetCookie(cookie);
-					//NSHttpCookie test = NSHttpCookieStorage.SharedStorage.Cookies.Where(c=>c.Name == "UserId").SingleOrDefault();
-					GoToMyBusidex();
-				}else{
-					lblLoginResult.Text = "Login Failed";
-					lblLoginResult.TextColor = UIColor.Red;
-				}
-				loadingOverlay.Hide();
-
-
+			btnLogin.TouchUpInside += delegate {
+				GoToLogin();
 			};
+
+			btnGoToSearch.TouchUpInside += delegate {
+				GoToSearch();
+			};
+
+			btnGoToMyBusidex.TouchUpInside += delegate {
+				GoToMyBusidex();
+			};
+				
 			// Perform any additional setup after loading the view, typically from a nib.
+		}
+
+		private void SetLoginDisplay(bool visible){
+			btnLogin.Hidden = !visible;
 		}
 
 		private string EncodeUserId(long userId){
@@ -85,8 +71,6 @@ namespace Busidex.Presentation.IOS
 			return returnValue;
 		}
 
-
-
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
@@ -94,24 +78,34 @@ namespace Busidex.Presentation.IOS
 			dataLabel.Text = DataObject;
 		}
 
-		private void GoToMyBusidex ()
+		private void GoToLogin ()
 		{
+			var loginController = this.Storyboard.InstantiateViewController ("LoginController") as LoginController;
 
-			// set the View Controller that’s powering the screen we’re
-			// transitioning to
-
-			var myBusidexController = this.Storyboard.InstantiateViewController ("MyBusidexController") as MyBusidexController;
-
-
-			//set the Table View Controller’s list of phone numbers to the
-			// list of dialed phone numbers
-
-			if (myBusidexController != null) {
-				this.NavigationController.PushViewController (myBusidexController, true);
+			if (loginController != null) {
+				this.NavigationController.PushViewController (loginController, true);
 
 			}
 		}
 
+		private void GoToMyBusidex ()
+		{
+
+			var myBusidexController = this.Storyboard.InstantiateViewController ("MyBusidexController") as MyBusidexController;
+
+			if (myBusidexController != null) {
+				this.NavigationController.PushViewController (myBusidexController, true);
+			}
+		}
+
+		private void GoToSearch ()
+		{
+			var searchController = this.Storyboard.InstantiateViewController ("SearchController") as SearchController;
+
+			if (searchController != null) {
+				this.NavigationController.PushViewController (searchController, true);
+			}
+		}
 
 	}
 }

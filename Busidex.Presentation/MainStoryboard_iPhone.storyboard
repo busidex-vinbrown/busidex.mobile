@@ -16,63 +16,34 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wFW-NB-ba9">
-                                <rect key="frame" x="9" y="13" width="304" height="515"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wFW-NB-ba9" fixedFrame="YES">
+                                <rect key="frame" x="0.0" y="61" width="320" height="419"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="" borderStyle="roundedRect" minimumFontSize="17" id="2" translatesAutoresizingMaskIntoConstraints="NO" placeholder="User Name" clearButtonMode="always" fixedFrame="YES">
-                                        <rect key="frame" x="64" y="87" width="191" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="390" fixedFrame="YES">
+                                        <rect key="frame" x="35" y="47" width="100" height="100"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                        <constraints>
-                                        </constraints>
-                                    </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="3" translatesAutoresizingMaskIntoConstraints="NO" usesAttributedText="YES" allowsEditingTextAttributes="NO" placeholder="Password" clearButtonMode="always" fixedFrame="YES">
-                                        <rect key="frame" x="64" y="136" width="191" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" secureTextEntry="YES" autocorrectionType="no"/>
-                                        <attributedString key="attributedText">
-                                            <fragment>
-                                                <attributes/>
-                                            </fragment>
-                                        </attributedString>
-                                        <constraints>
-                                        </constraints>
-                                    </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="32">
-                                        <rect key="frame" x="56" y="184" width="191" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Log In">
+                                        <state key="normal" title="" backgroundImage="spotlight-icon.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
-                                        <connections/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="191" id="132"/>
-                                        </constraints>
                                     </button>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" id="41" translatesAutoresizingMaskIntoConstraints="NO">
-                                        <rect key="frame" x="54" y="124" width="191" height="21"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="391" fixedFrame="YES">
+                                        <rect key="frame" x="177" y="47" width="100" height="100"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="191" id="155"/>
-                                            <constraint firstAttribute="height" constant="21" id="156"/>
-                                        </constraints>
-                                    </label>
+                                        <state key="normal" title="" backgroundImage="BusidexLogo4a.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="412" fixedFrame="YES">
+                                        <rect key="frame" x="92" y="166" width="100" height="100"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="" backgroundImage="signin.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                                 <color key="tintColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
                                 <constraints>
-                                    <constraint firstItem="32" firstAttribute="leading" secondItem="wFW-NB-ba9" secondAttribute="leading" constant="56" id="130"/>
-                                    <constraint id="131" firstItem="32" firstAttribute="top" secondItem="wFW-NB-ba9" secondAttribute="top" constant="184"/>
-                                    <constraint firstItem="41" firstAttribute="leading" secondItem="wFW-NB-ba9" secondAttribute="leading" constant="54" id="157"/>
-                                    <constraint id="158" firstItem="41" firstAttribute="top" secondItem="wFW-NB-ba9" secondAttribute="top" constant="124"/>
-                                    <constraint firstAttribute="width" constant="304" id="185"/>
-                                    <constraint firstAttribute="height" constant="515" id="186"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Busidex" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="i7n-lc-4In" misplaced="YES">
@@ -87,19 +58,15 @@
                             <constraint firstAttribute="trailing" secondItem="i7n-lc-4In" secondAttribute="trailing" constant="8" id="WdW-Rj-aSg"/>
                             <constraint firstItem="i7n-lc-4In" firstAttribute="top" secondItem="gLe-Tb-ylt" secondAttribute="top" constant="20" symbolic="YES" id="Z9a-TM-cFj"/>
                             <constraint firstItem="i7n-lc-4In" firstAttribute="leading" secondItem="gLe-Tb-ylt" secondAttribute="leading" constant="8" id="reE-mV-FOp"/>
-                            <constraint firstItem="gLe-Tb-ylt" firstAttribute="trailing" secondItem="wFW-NB-ba9" secondAttribute="trailing" constant="7" id="273"/>
-                            <constraint id="274" firstItem="gLe-Tb-ylt" firstAttribute="bottom" secondItem="wFW-NB-ba9" secondAttribute="bottom" constant="-48"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="dataLabel" destination="i7n-lc-4In" id="8Kj-KN-eO6"/>
-                        <outlet property="txtPassword" destination="3" id="name-outlet-3"/>
-                        <outlet property="txtUserName" destination="2" id="name-outlet-2"/>
                         <outlet property="vwLogin" destination="gLe-Tb-ylt" id="name-outlet-gLe-Tb-ylt"/>
-                        <outlet property="btnLogin" destination="32" id="name-outlet-32"/>
-                        <outlet property="lblLoginResult" destination="41" id="name-outlet-41"/>
+                        <outlet property="btnGoToSearch" destination="390" id="name-outlet-390"/>
+                        <outlet property="btnGoToMyBusidex" destination="391" id="name-outlet-391"/>
+                        <outlet property="btnLogin" destination="412" id="name-outlet-412"/>
                     </connections>
-                    <navigationItem title="Busidex" id="62" key="navigationItem"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PHE-GN-Yf3" sceneMemberID="firstResponder"/>
             </objects>
@@ -123,7 +90,7 @@
         <scene sceneID="110">
             <objects>
                 <tableViewController id="111" sceneMemberID="viewController" customClass="MyBusidexController" storyboardIdentifier="MyBusidexController">
-                    <tableView key="view" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFit" alwaysBounceVertical="NO" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" rowHeight="100" sectionHeaderHeight="22" sectionFooterHeight="22" id="112" pagingEnabled="NO" autoresizesSubviews="YES" showsSelectionImmediatelyOnTouchBegin="NO" keyboardDismissMode="2" separatorInsetType="0">
+                    <tableView key="view" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFit" alwaysBounceVertical="NO" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" rowHeight="100" sectionHeaderHeight="22" sectionFooterHeight="22" id="112" pagingEnabled="NO" autoresizesSubviews="YES" showsSelectionImmediatelyOnTouchBegin="NO" keyboardDismissMode="2" separatorInsetType="0" allowsSelection="NO">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -132,16 +99,13 @@
                             <outlet property="delegate" destination="111" id="114"/>
                         </connections>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="244" style="-1">
-                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="244" id="245">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
                         </prototypes>
                         <color key="separatorColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                        <searchBar contentMode="top" fixedFrame="YES" id="452" translatesAutoresizingMaskIntoConstraints="NO" key="tableHeaderView" placeholder="Filter" searchBarStyle="2" showsCancelButton="NO" showsScopeBar="NO" showsSearchResultsButton="NO">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </searchBar>
                     </tableView>
                     <connections>
                         <outlet property="MyBusidexCtrl" destination="112" id="name-outlet-112"/>
@@ -150,6 +114,134 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="117" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="833" y="-7"/>
+        </scene>
+        <scene sceneID="129">
+            <objects>
+                <viewController id="130" sceneMemberID="viewController" customClass="SearchController" storyboardIdentifier="SearchController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="127"/>
+                        <viewControllerLayoutGuide type="bottom" id="128"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="131">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="" borderStyle="roundedRect" minimumFontSize="17" id="136" translatesAutoresizingMaskIntoConstraints="NO" clearButtonMode="always" fixedFrame="YES">
+                                <rect key="frame" x="20" y="109" width="188" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="go"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="custom" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="137" fixedFrame="YES">
+                                <rect key="frame" x="228" y="109" width="28" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Search" image="spotlight-icon.png">
+                                    <color key="titleShadowColor" colorSpace="calibratedRGB" red="0.49803921568627452" green="0.49803921568627452" blue="0.49803921568627452" alpha="1"/>
+                                    <color key="titleColor" colorSpace="calibratedRGB" red="0.19215686274509805" green="0.30588235294117649" blue="0.52156862745098043" alpha="1"/>
+                                </state>
+                                <state key="highlighted"/>
+                                <state key="selected"/>
+                                <state key="disabled"/>
+                                <connections/>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" text="Search for a card by entering keywords then tapping the Search button" lineBreakMode="wordWrap" minimumFontSize="10" id="160" translatesAutoresizingMaskIntoConstraints="NO" numberOfLines="2" textAlignment="center" key="view" fixedFrame="YES">
+                                <rect key="frame" x="0.0" y="58" width="320" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="100" sectionHeaderHeight="22" sectionFooterHeight="22" id="339" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" separatorStyle="none">
+                                <rect key="frame" x="0.0" y="147" width="320" height="333"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="txtSearch" destination="136" id="name-outlet-136"/>
+                        <outlet property="btnSearch" destination="137" id="name-outlet-137"/>
+                        <outlet property="vwSearchResults" destination="339" id="name-outlet-339"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="132" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="455" y="519"/>
+        </scene>
+        <scene sceneID="415">
+            <objects>
+                <viewController id="416" sceneMemberID="viewController" storyboardIdentifier="LoginController" customClass="LoginController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="413"/>
+                        <viewControllerLayoutGuide type="bottom" id="414"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="417">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="" borderStyle="roundedRect" minimumFontSize="17" id="2" translatesAutoresizingMaskIntoConstraints="NO" placeholder="User Name" clearButtonMode="always" fixedFrame="YES">
+                                <rect key="frame" x="64" y="109" width="191" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <constraints>
+                                </constraints>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="3" translatesAutoresizingMaskIntoConstraints="NO" usesAttributedText="YES" allowsEditingTextAttributes="NO" placeholder="Password" clearButtonMode="always" fixedFrame="YES">
+                                <rect key="frame" x="64" y="147" width="191" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES" autocorrectionType="no"/>
+                                <attributedString key="attributedText">
+                                    <fragment>
+                                        <attributes/>
+                                    </fragment>
+                                </attributedString>
+                                <constraints>
+                                </constraints>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="32" fixedFrame="YES">
+                                <rect key="frame" x="80" y="185" width="161" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal" title="Sign In">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections/>
+                                <constraints>
+                                </constraints>
+                                <state key="highlighted"/>
+                                <state key="selected"/>
+                                <state key="disabled"/>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" id="41" translatesAutoresizingMaskIntoConstraints="NO" fixedFrame="YES" textAlignment="center">
+                                <rect key="frame" x="64" y="210" width="191" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <constraints>
+                                </constraints>
+                            </label>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="txtUserName" destination="2" id="name-outlet-2"/>
+                        <outlet property="txtPassword" destination="3" id="name-outlet-3"/>
+                        <outlet property="btnLogin" destination="32" id="name-outlet-32"/>
+                        <outlet property="lblLoginResult" destination="41" id="name-outlet-41"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="418" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="63" y="516"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -161,5 +253,9 @@
         <image name="Default-568h.png" width="640" height="1136"/>
         <image name="default-user-image.png" width="512" height="512"/>
         <image name="defaultUserImage.png" width="512" height="512"/>
+        <image name="spotlight-icon.jpg" width="150" height="150"/>
+        <image name="spotlight-icon.png" width="100" height="100"/>
+        <image name="BusidexLogo4a.png" width="88" height="96"/>
+        <image name="signin.png" width="256" height="256"/>
     </resources>
 </document>

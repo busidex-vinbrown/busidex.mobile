@@ -34,13 +34,21 @@ namespace Busidex.Presentation.IOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UILabel lblLoginResult { get; set; }
+		UIButton btnGoToMyBusidex { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton btnGoToSearch { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
-			if (lblLoginResult != null) {
-				lblLoginResult.Dispose ();
-				lblLoginResult = null;
+			if (btnGoToMyBusidex != null) {
+				btnGoToMyBusidex.Dispose ();
+				btnGoToMyBusidex = null;
+			}
+			if (btnGoToSearch != null) {
+				btnGoToSearch.Dispose ();
+				btnGoToSearch = null;
 			}
 		}
 	}

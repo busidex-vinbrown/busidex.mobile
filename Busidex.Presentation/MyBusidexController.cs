@@ -13,7 +13,7 @@ namespace Busidex.Presentation.IOS
 {
 	partial class MyBusidexController : UITableViewController
 	{
-		public static NSString BusidexCellId = new NSString ("BusidexCell");
+		public static NSString BusidexCellId = new NSString ("cellId");
 
 		public MyBusidexController (IntPtr handle) : base (handle)
 		{

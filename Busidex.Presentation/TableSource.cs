@@ -21,8 +21,6 @@ namespace Busidex.Presentation.IOS
 		public TableSource (ObservableCollection<UserCard> items)
 		{
 			tableItems = items;
-
-
 		}
 		public override int RowsInSection (UITableView tableview, int section)
 		{
@@ -46,7 +44,6 @@ namespace Busidex.Presentation.IOS
 			var card = (UserCard)tableItems [indexPath.Row];
 		
 			AddControls (cell, card);
-		
 
 			cell.SetNeedsDisplay ();
 
@@ -77,17 +74,17 @@ namespace Busidex.Presentation.IOS
 				needsCardImage = CardImage.Tag <= 0;
 
 				CardImage.Tag = 1;
-				//var documentsDirectory = Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData);
+
 				var fileName = System.IO.Path.Combine (documentsPath, card.Card.FrontFileId + "." + card.Card.FrontType);
 				if (File.Exists (fileName)) {
 
-					//using (var data = NSData.FromFile (fileName)) {
-						CardImage.Image = UIImage.FromFile (fileName); 
-					//}
-
+					CardImage.Image = UIImage.FromFile (fileName); 
 
 				} else {
-					DownloadImage (Busidex.Mobile.Utils.CARD_PATH + card.Card.FrontFileId + "." + card.Card.FrontType, card.Card.FrontFileId + "." + card.Card.FrontType).ContinueWith (t => {
+					var imagePath = Busidex.Mobile.Utils.CARD_PATH + card.Card.FrontFileId + "." + card.Card.FrontType;
+					var fName = card.Card.FrontFileId + "." + card.Card.FrontType;
+
+					Busidex.Mobile.Utils.DownloadImage (imagePath, documentsPath, fName).ContinueWith (t => {
 					
 
 					 	fileName = t.Result;
@@ -222,25 +219,7 @@ namespace Busidex.Presentation.IOS
 
 		}
 
-		public async Task<string> DownloadImage(string imagePath, string fileName)
-		{
-			//var documentsDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-			string jpgFilename = System.IO.Path.Combine (documentsPath, fileName);
 
-			webClient = new WebClient ();
-			webClient.DownloadDataCompleted += (s, e) => {
-				var bytes = e.Result; // get the downloaded data
-
-				//string localFilename = "downloaded.png";
-				string localPath = Path.Combine (documentsPath, fileName);
-				File.WriteAllBytes (localPath, bytes); // writes to local storage   
-			};
-			//if (!File.Exists (jpgFilename)) {
-			await webClient.DownloadFileTaskAsync (imagePath, jpgFilename);
-			//} 
-
-			return jpgFilename;
-		}
 
 //		private UIImage GetImageFromUrl (string uri)
 //		{
@@ -284,7 +263,7 @@ namespace Busidex.Presentation.IOS
 //			}
 			//c.WebsiteLabel.BecomeFirstResponder ();
 			//UIApplication.SharedApplication.OpenUrl(new NSUrl(c.WebsiteLabel.Text));
-			//tableView.DeselectRow (indexPath, true); // normal iOS behaviour is to remove the blue highlight
+			tableView.DeselectRow (indexPath, true); // normal iOS behaviour is to remove the blue highlight
 		}
 	}
 }

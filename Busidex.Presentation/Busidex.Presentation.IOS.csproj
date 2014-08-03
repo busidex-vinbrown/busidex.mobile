@@ -99,6 +99,9 @@
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
     <BundleResource Include="Resources\defaultUserImage.png" />
+    <BundleResource Include="Resources\spotlight-icon.png" />
+    <BundleResource Include="Resources\BusidexLogo4a.png" />
+    <BundleResource Include="Resources\signin.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -131,6 +134,16 @@
       <DependentUpon>NavigationController.cs</DependentUpon>
     </Compile>
     <Compile Include="CardDisplay.cs" />
+    <Compile Include="SearchController.cs" />
+    <Compile Include="SearchController.designer.cs">
+      <DependentUpon>SearchController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CollectionSource.cs" />
+    <Compile Include="SearchViewCell.cs" />
+    <Compile Include="LoginController.cs" />
+    <Compile Include="LoginController.designer.cs">
+      <DependentUpon>LoginController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPhone.storyboard" />

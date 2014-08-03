@@ -21,6 +21,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\PhoneNumberType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\MyBusidexResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\MyBusidexCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SearchController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SearchResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SearchModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />
