@@ -243,6 +243,41 @@
             </objects>
             <point key="canvasLocation" x="63" y="516"/>
         </scene>
+        <scene sceneID="459">
+            <objects>
+                <viewController id="460" sceneMemberID="viewController" customClass="CardViewController" storyboardIdentifier="CardViewController" modalTransitionStyle="flipHorizontal">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="457"/>
+                        <viewControllerLayoutGuide type="bottom" id="458"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="461" clearsContextBeforeDrawing="NO">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="YES" contentMode="scaleToFill" id="464" translatesAutoresizingMaskIntoConstraints="NO" image="defaultUserImage.png" autoresizesSubviews="NO" clearsContextBeforeDrawing="NO" misplaced="YES">
+                                <rect key="frame" x="30" y="44" width="259" height="391"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
+                                <constraints>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="464" firstAttribute="leading" secondItem="461" secondAttribute="leading" constant="30" id="719"/>
+                            <constraint firstItem="461" firstAttribute="trailing" secondItem="464" secondAttribute="trailing" constant="31" id="720"/>
+                            <constraint firstItem="458" firstAttribute="top" secondItem="464" secondAttribute="bottom" constant="24" id="721"/>
+                            <constraint firstItem="464" firstAttribute="top" secondItem="457" secondAttribute="bottom" constant="24" id="722"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imgCard" destination="464" id="name-outlet-464"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="462" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="829" y="538"/>
+        </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

@@ -40,6 +40,15 @@ namespace Busidex.Presentation.IOS
 			};
 		}
 			
+		private void GoToCard(){
+			var cardController = this.Storyboard.InstantiateViewController ("CardViewController") as CardViewController;
+			cardController.UserCard = ((TableSource)this.vwSearchResults.Source).SelectedCard;
+
+			if (cardController != null) {
+				this.NavigationController.PushViewController (cardController, true);
+			}
+		}
+
 		public void DoSearch(){
 
 			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.Where(c=>c.Name == "UserId").SingleOrDefault();
@@ -72,7 +81,11 @@ namespace Busidex.Presentation.IOS
 					}
 				}
 
-				this.vwSearchResults.Source = new TableSource (cards); //new CollectionSource (cards);
+				var src = new TableSource (cards);
+				src.CardSelected += delegate {
+					GoToCard();
+				};
+				this.vwSearchResults.Source = src; //new CollectionSource (cards);
 				this.vwSearchResults.ReloadData ();
 				this.vwSearchResults.AllowsSelection = true;
 				this.vwSearchResults.SetNeedsDisplay ();

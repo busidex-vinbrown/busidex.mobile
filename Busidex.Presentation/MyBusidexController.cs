@@ -29,6 +29,15 @@ namespace Busidex.Presentation.IOS
 			// Release any cached data, images, etc that aren't in use.
 		}
 
+		private void GoToCard(){
+			var cardController = this.Storyboard.InstantiateViewController ("CardViewController") as CardViewController;
+			cardController.UserCard = ((TableSource)this.TableView.Source).SelectedCard;
+
+			if (cardController != null) {
+				this.NavigationController.PushViewController (cardController, true);
+			}
+		}
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
@@ -55,7 +64,12 @@ namespace Busidex.Presentation.IOS
 						}
 					}
 
-					this.TableView.Source = new TableSource(cards);
+					var src = new TableSource (cards);
+
+					src.CardSelected += delegate {
+						GoToCard();
+					};
+					this.TableView.Source = src;
 					this.TableView.AllowsSelection = true;
 
 				}

@@ -12,15 +12,23 @@ using System.IO;
 
 namespace Busidex.Presentation.IOS
 {
+	public delegate void CardSelected();
+
 	public class TableSource : UITableViewSource {
+
 		ObservableCollection<UserCard> tableItems;
-		//NSString cellIdentifier = new NSString( "BusidexDataCell");
 		string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-		WebClient webClient;
+		public UserCard SelectedCard{ get; set; }
+		private List<UITableViewCell> cellCache;
+		private List<UserCard> Cards{ get; set; }
 
 		public TableSource (ObservableCollection<UserCard> items)
 		{
 			tableItems = items;
+			cellCache = new List<UITableViewCell> ();
+			Cards = new List<UserCard> ();
+			Cards.AddRange (items);
+
 		}
 		public override int RowsInSection (UITableView tableview, int section)
 		{
@@ -35,26 +43,39 @@ namespace Busidex.Presentation.IOS
 			return 150;
 		}
 
+		public event CardSelected CardSelected;
+
 		public override UITableViewCell GetCell (UITableView tableView, MonoTouch.Foundation.NSIndexPath indexPath)
 		{
 			var cell = tableView.DequeueReusableCell (MyBusidexController.BusidexCellId, indexPath);
-
+			cell.Tag = indexPath.Row;
+			if (cellCache.All (c => c.Tag != indexPath.Row)) {
+				cellCache.Add (cell);
+			}
 			cell.SelectionStyle = UITableViewCellSelectionStyle.Default;
 
 			var card = (UserCard)tableItems [indexPath.Row];
 		
-			AddControls (cell, card);
-
+			AddControls (cell, card, indexPath.Row);
+		
 			cell.SetNeedsDisplay ();
 
 			return cell;
 		}
 
-		public void AddControls(UITableViewCell cell, UserCard card){
+		private void GoToCard(int idx){
+			this.SelectedCard = Cards[idx];
+			if (this.CardSelected != null) {
+				this.CardSelected ();
+			}
+		}
+
+		public void AddControls(UITableViewCell cell, UserCard card, int idx){
 
 
 			var PhoneNumberLabels = new List<UITextView> ();
 
+			UIButton CardImageButton = null;
 		    UIImageView	CardImage = null;
 			UILabel NameLabel = null;
 			UILabel CompanyLabel = null;
@@ -69,16 +90,21 @@ namespace Busidex.Presentation.IOS
 
 				bool needsCardImage = false;
 
-				CardImage = cell.ContentView.Subviews.Where(s=> s.Tag == 1).SingleOrDefault() as UIImageView ?? new UIImageView ();
-				 
-				needsCardImage = CardImage.Tag <= 0;
+				CardImageButton = cell.ContentView.Subviews.Where(s=> s is UIButton).SingleOrDefault() as UIButton ?? new UIButton (UIButtonType.Custom);
+				if (CardImageButton != null) {
+					CardImageButton.RemoveFromSuperview ();
+					CardImageButton = new UIButton (UIButtonType.Custom);
+				}
+				needsCardImage = CardImageButton.Tag <= 0;
 
-				CardImage.Tag = 1;
+				CardImageButton.Tag = 1;
 
 				var fileName = System.IO.Path.Combine (documentsPath, card.Card.FrontFileId + "." + card.Card.FrontType);
 				if (File.Exists (fileName)) {
 
-					CardImage.Image = UIImage.FromFile (fileName); 
+					CardImageButton.SetBackgroundImage( UIImage.FromFile (fileName), UIControlState.Normal); 
+
+
 
 				} else {
 					var imagePath = Busidex.Mobile.Utils.CARD_PATH + card.Card.FrontFileId + "." + card.Card.FrontType;
@@ -100,13 +126,20 @@ namespace Busidex.Presentation.IOS
 						}
 					});
 				}
-
-				//CardImage.Image = GetImageFromUrl (Busidex.Mobile.Utils.CARD_PATH + card.Card.FrontFileId + "." + card.Card.FrontType);
+					
+				CardImageButton.TouchUpInside -= delegate {
+					GoToCard (idx);
+				};
+				CardImageButton.TouchUpInside += delegate {
+					GoToCard (idx);
+				};
 
 				if (needsCardImage) {
-					CardImage.Frame = new RectangleF (10, 10f, 120f, 80f);
-					cell.ContentView.AddSubview (CardImage);
+					CardImageButton.Frame = new RectangleF (10, 10f, 120f, 80f);
+
+					cell.ContentView.AddSubview (CardImageButton);
 				}
+
 
 				float labelHeight = 21f;
 				float labelWidth = 140f;
@@ -202,11 +235,6 @@ namespace Busidex.Presentation.IOS
 						newLabel.Editable = false;
 
 						frame.Y += 21;
-
-//						var labelTap = new UITapGestureRecognizer(
-//							tap => DoTap(number.Number)
-//						);
-//						newLabel.AddGestureRecognizer(labelTap);
 
 						cell.ContentView.AddSubview (newLabel);
 

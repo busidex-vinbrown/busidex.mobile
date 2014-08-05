@@ -9,19 +9,20 @@ namespace Busidex.Presentation.IOS
 	public class BusidexDataCell : UITableViewCell
 	{
 
+		public UIButton CardImageButton;
 		//MyDataView myDataView;
 		//UILabel headingLabel, subheadingLabel;
 		//UIImageView imageView;
 		//Size thisSize;
-		CardDisplay BusidexCard{ get; set; }
+		//CardDisplay BusidexCard{ get; set; }
 		public BusidexDataCell (UserCard card, NSString identKey) : base (UITableViewCellStyle.Default, identKey)
 		{
-			SelectionStyle = UITableViewCellSelectionStyle.Gray;
+			//SelectionStyle = UITableViewCellSelectionStyle.Gray;
 			//thisSize = new Size (300, 50);
-			ContentView.BackgroundColor = UIColor.White;//.FromRGB (218, 255, 127);
+			//ContentView.BackgroundColor = UIColor.White;//.FromRGB (218, 255, 127);
 
-			BusidexCard = new CardDisplay (card);
-			ContentView.Add (BusidexCard);
+			//BusidexCard = new CardDisplay (card);
+			//ContentView.Add (BusidexCard);
 
 //			imageView = new UIImageView();
 //
@@ -60,7 +61,7 @@ namespace Busidex.Presentation.IOS
 		// Called by our client code when we get new data.
 		public void UpdateCell (UserCard card)
 		{
-			BusidexCard.UserCard = card;
+			//BusidexCard.UserCard = card;
 
 			this.Accessory = UITableViewCellAccessory.DetailDisclosureButton;
 

@@ -144,6 +144,10 @@
     <Compile Include="LoginController.designer.cs">
       <DependentUpon>LoginController.cs</DependentUpon>
     </Compile>
+    <Compile Include="CardViewController.cs" />
+    <Compile Include="CardViewController.designer.cs">
+      <DependentUpon>CardViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPhone.storyboard" />
