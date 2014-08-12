@@ -34,8 +34,11 @@ namespace Busidex.Presentation.IOS
 			base.ViewDidLoad ();
 			//vwSearchResults.RegisterClassForCell (typeof(SearchViewCell), cellID);
 			vwSearchResults.RegisterClassForCellReuse (typeof(UITableViewCell), cellID);
+
+			vwSearchResults.Hidden = true;
 			btnSearch.TouchUpInside += delegate {
 				DoSearch();
+				vwSearchResults.Hidden = false;
 				txtSearch.ResignFirstResponder(); // hide keyboard
 			};
 		}
@@ -49,13 +52,22 @@ namespace Busidex.Presentation.IOS
 			}
 		}
 
+		public override void ViewWillAppear (bool animated)
+		{
+
+			base.ViewWillAppear (animated);
+			if (this.NavigationController != null) {
+				this.NavigationController.SetNavigationBarHidden (false, true);
+			}
+		}
+
 		public void DoSearch(){
 
 			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.Where(c=>c.Name == "UserId").SingleOrDefault();
 			string token = string.Empty;
 
 
-			this.vwSearchResults.Source = new  TableSource (new ObservableCollection<UserCard> ());
+			this.vwSearchResults.Source = new  TableSource (new List<UserCard> ());
 			this.vwSearchResults.SetNeedsDisplay ();
 
 			if (cookie != null) {
@@ -68,7 +80,7 @@ namespace Busidex.Presentation.IOS
 			if (!string.IsNullOrEmpty (response)) {
 			
 				SearchResponse Search = Newtonsoft.Json.JsonConvert.DeserializeObject<SearchResponse> (response);
-				ObservableCollection<UserCard> cards = new ObservableCollection<UserCard> ();
+				List<UserCard> cards = new List<UserCard> ();
 
 				foreach (var item in Search.SearchModel.Results) {
 					if (item != null) {

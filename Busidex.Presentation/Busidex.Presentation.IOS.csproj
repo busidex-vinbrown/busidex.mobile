@@ -91,10 +91,10 @@
     <Reference Include="monotouch" />
     <Reference Include="Mono.Data.Sqlite" />
     <Reference Include="System.Json" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\portable-net40+sl4+wp7+win8\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="MonoTouch.Dialog-1" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
@@ -102,12 +102,13 @@
     <BundleResource Include="Resources\spotlight-icon.png" />
     <BundleResource Include="Resources\BusidexLogo4a.png" />
     <BundleResource Include="Resources\signin.png" />
+    <BundleResource Include="Resources\appBackground.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
-    <None Include="packages.config" />
     <None Include="RELEASE-NOTES.txt" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -127,7 +128,6 @@
       <DependentUpon>MyBusidexController.cs</DependentUpon>
     </Compile>
     <Compile Include="TableSource.cs" />
-    <Compile Include="MyDataView.cs" />
     <Compile Include="BusidexDataCell.cs" />
     <Compile Include="NavigationController.cs" />
     <Compile Include="NavigationController.designer.cs">
@@ -148,6 +148,11 @@
     <Compile Include="CardViewController.designer.cs">
       <DependentUpon>CardViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="DownloadProgress.cs" />
+    <Compile Include="StartupController.cs" />
+    <Compile Include="StartupController.designer.cs">
+      <DependentUpon>StartupController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPhone.storyboard" />
@@ -155,6 +160,7 @@
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Resources\Cards\" />
   </ItemGroup>

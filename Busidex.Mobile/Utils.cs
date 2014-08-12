@@ -41,10 +41,12 @@ namespace Busidex.Mobile
 				var bytes = e.Result; // get the downloaded data
 
 				string localPath = Path.Combine (documentsPath, fileName);
-				File.WriteAllBytes (localPath, bytes); // writes to local storage   
+				if(bytes != null){
+					File.WriteAllBytes (localPath, bytes); // writes to local storage  
+				}
 			};
 
-			await webClient.DownloadFileTaskAsync (imagePath, jpgFilename);
+			 webClient.DownloadDataAsync (new Uri (imagePath));
 
 			return jpgFilename;
 		}

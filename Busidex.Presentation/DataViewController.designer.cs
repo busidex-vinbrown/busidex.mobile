@@ -15,9 +15,6 @@ namespace Busidex.Presentation.IOS
 	partial class DataViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnLogin { get; set; }
-
-		[Outlet]
 		MonoTouch.UIKit.UILabel dataLabel { get; set; }
 
 		[Outlet]
@@ -30,15 +27,20 @@ namespace Busidex.Presentation.IOS
 		MonoTouch.UIKit.UITextField txtUserName { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView vwLogin { get; set; }
-
-		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton btnGoToMyBusidex { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton btnGoToSearch { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel lblLoading { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIActivityIndicatorView spnLoading { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
@@ -49,6 +51,14 @@ namespace Busidex.Presentation.IOS
 			if (btnGoToSearch != null) {
 				btnGoToSearch.Dispose ();
 				btnGoToSearch = null;
+			}
+			if (lblLoading != null) {
+				lblLoading.Dispose ();
+				lblLoading = null;
+			}
+			if (spnLoading != null) {
+				spnLoading.Dispose ();
+				spnLoading = null;
 			}
 		}
 	}

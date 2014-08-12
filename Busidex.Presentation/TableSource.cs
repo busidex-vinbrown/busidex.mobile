@@ -16,13 +16,13 @@ namespace Busidex.Presentation.IOS
 
 	public class TableSource : UITableViewSource {
 
-		ObservableCollection<UserCard> tableItems;
+		List<UserCard> tableItems;
 		string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 		public UserCard SelectedCard{ get; set; }
 		private List<UITableViewCell> cellCache;
 		private List<UserCard> Cards{ get; set; }
 
-		public TableSource (ObservableCollection<UserCard> items)
+		public TableSource (List<UserCard> items)
 		{
 			tableItems = items;
 			cellCache = new List<UITableViewCell> ();
@@ -76,7 +76,7 @@ namespace Busidex.Presentation.IOS
 			var PhoneNumberLabels = new List<UITextView> ();
 
 			UIButton CardImageButton = null;
-		    UIImageView	CardImage = null;
+		    //UIImageView	CardImage = null;
 			UILabel NameLabel = null;
 			UILabel CompanyLabel = null;
 			UITextView WebsiteLabel = null;
@@ -99,37 +99,30 @@ namespace Busidex.Presentation.IOS
 
 				CardImageButton.Tag = 1;
 
-				var fileName = System.IO.Path.Combine (documentsPath, card.Card.FrontFileId + "." + card.Card.FrontType);
+				var fileName = System.IO.Path.Combine (documentsPath + "/", card.Card.FrontFileId + "." + card.Card.FrontType);
+				var imagePath = Busidex.Mobile.Utils.CARD_PATH + card.Card.FrontFileId + "." + card.Card.FrontType;
+
 				if (File.Exists (fileName)) {
-
-					CardImageButton.SetBackgroundImage( UIImage.FromFile (fileName), UIControlState.Normal); 
-
-
-
+					CardImageButton.SetBackgroundImage (UIImage.FromFile (fileName), UIControlState.Normal); 
 				} else {
-					var imagePath = Busidex.Mobile.Utils.CARD_PATH + card.Card.FrontFileId + "." + card.Card.FrontType;
-					var fName = card.Card.FrontFileId + "." + card.Card.FrontType;
 
-					Busidex.Mobile.Utils.DownloadImage (imagePath, documentsPath, fName).ContinueWith (t => {
-					
+					CardImageButton.SetBackgroundImage (UIImage.FromBundle ("defaultUserImage.png"), UIControlState.Normal); 
 
-					 	fileName = t.Result;
-						string jpgFilename = System.IO.Path.Combine (documentsPath, fileName);
+//					Busidex.Mobile.Utils.DownloadImage (imagePath, documentsPath, fileName).ContinueWith (t => {
+//
+//						InvokeOnMainThread (() => {
+//							if(File.Exists(fileName)){
+//								CardImageButton.SetBackgroundImage (UIImage.FromFile (fileName), UIControlState.Normal); 
+//								CardImageButton.SetNeedsDisplay();
+//							}
+//						});
+//					});
 
-						using(var f = File.Open(t.Result, FileMode.Open)){
-							//var newFile = File.Create(jpgFilename);
-							//newFile.Close();
-
-							using (var data = NSData.FromFile (jpgFilename)) {
-								CardImage.Image = UIImage.LoadFromData (data); 
-							}
-						}
-					});
 				}
-					
-				CardImageButton.TouchUpInside -= delegate {
-					GoToCard (idx);
-				};
+
+//				CardImageButton.TouchUpInside -= delegate {
+//					GoToCard (idx);
+//				};
 				CardImageButton.TouchUpInside += delegate {
 					GoToCard (idx);
 				};

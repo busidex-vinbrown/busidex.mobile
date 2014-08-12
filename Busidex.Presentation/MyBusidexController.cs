@@ -7,6 +7,7 @@ using Busidex.Mobile.Models;
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using Newtonsoft.Json;
 
 namespace Busidex.Presentation.IOS
@@ -14,6 +15,7 @@ namespace Busidex.Presentation.IOS
 	partial class MyBusidexController : UITableViewController
 	{
 		public static NSString BusidexCellId = new NSString ("cellId");
+		string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 
 		public MyBusidexController (IntPtr handle) : base (handle)
 		{
@@ -38,10 +40,7 @@ namespace Busidex.Presentation.IOS
 			}
 		}
 
-		public override void ViewDidLoad ()
-		{
-			base.ViewDidLoad ();
-
+		private void LoadMyBusidexAsync(){
 			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.Where(c=>c.Name == "UserId").SingleOrDefault();
 
 			if (cookie != null) {
@@ -52,15 +51,38 @@ namespace Busidex.Presentation.IOS
 				if(!string.IsNullOrEmpty(response)){
 					MyBusidexResponse MyBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (response);
 
-					ObservableCollection<UserCard> cards = new ObservableCollection<UserCard> ();
+					List<UserCard> cards = new List<UserCard> ();
+					//prgDownload.Progress = 0f;
 
+					//Progress<DownloadProgress> progressReporter = new Progress<DownloadProgress> ();
+					//progressReporter.ProgressChanged += (s, args) =>  prgDownload.Progress = args.PercentComplete;
+
+					int processed = 0;
 					foreach (var item in MyBusidexResponse.MyBusidex.Busidex) {
 						if (item.Card != null) {
 
-							//var card = 
-							//if (image != null) {
-								cards.Add (item);
-							//}
+//							var imagePath = Busidex.Mobile.Utils.CARD_PATH + item.Card.FrontFileId + "." + item.Card.FrontType;
+//							var fName = item.Card.FrontFileId + item.Card.FrontType;
+
+//							if (!File.Exists (fName)) {
+//								Busidex.Mobile.Utils.DownloadImage (imagePath, documentsPath, fName).ContinueWith (t => {
+//
+////									IProgress<DownloadProgress> reporter = new Progress<DownloadProgress> ();
+////
+////									float currentItem = ++processed;
+////									float total = MyBusidexResponse.MyBusidex.Busidex.Count ();
+////									var pct = Math.Round ((currentItem / total), 2) * 100;
+////
+////									if (pct >= 100) {
+////
+////									} else {
+////										DownloadProgress args = new DownloadProgress(fName, currentItem, total);
+////										reporter.Report(args);
+////
+////									}
+//								});
+//							}
+							cards.Add (item);
 						}
 					}
 
@@ -74,6 +96,24 @@ namespace Busidex.Presentation.IOS
 
 				}
 			}
+		}
+
+		public override void ViewWillAppear (bool animated)
+		{
+			base.ViewWillAppear (animated);
+			if (this.NavigationController != null) {
+				this.NavigationController.SetNavigationBarHidden (false, true);
+			}
+		}
+
+		public override void ViewDidLoad ()
+		{
+			base.ViewDidLoad ();
+
+			LoadMyBusidexAsync ();
+
+
+
 
 		}
 	}

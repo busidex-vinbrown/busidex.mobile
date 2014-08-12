@@ -30,6 +30,10 @@ namespace Busidex.Presentation.IOS
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UITextField txtUserName { get; set; }
 
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIView vwLogin { get; set; }
+
 		void ReleaseDesignerOutlets ()
 		{
 			if (btnLogin != null) {
@@ -47,6 +51,10 @@ namespace Busidex.Presentation.IOS
 			if (txtUserName != null) {
 				txtUserName.Dispose ();
 				txtUserName = null;
+			}
+			if (vwLogin != null) {
+				vwLogin.Dispose ();
+				vwLogin = null;
 			}
 		}
 	}

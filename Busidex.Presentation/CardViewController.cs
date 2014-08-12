@@ -21,6 +21,10 @@ namespace Busidex.Presentation
 
 		public void LoadCard(){
 
+			if (this.NavigationController != null) {
+				this.NavigationController.SetNavigationBarHidden (false, true);
+			}
+
 			if (UserCard != null && UserCard.Card != null) {
 				FileName = System.IO.Path.Combine (documentsPath, UserCard.Card.FrontFileId + "." + UserCard.Card.FrontType);
 				if (File.Exists (FileName)) {
