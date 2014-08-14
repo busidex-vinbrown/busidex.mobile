@@ -175,20 +175,21 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" image="defaultUserImage.png" translatesAutoresizingMaskIntoConstraints="NO" id="464" misplaced="YES">
-                                <rect key="frame" x="30" y="44" width="259" height="391"/>
+                                <rect key="frame" x="13" y="31" width="293" height="441"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" customColorSpace="calibratedWhite" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="464" firstAttribute="leading" secondItem="461" secondAttribute="leading" constant="30" id="719"/>
-                            <constraint firstAttribute="trailing" secondItem="464" secondAttribute="trailing" constant="31" id="720"/>
-                            <constraint firstItem="458" firstAttribute="top" secondItem="464" secondAttribute="bottom" constant="24" id="721"/>
-                            <constraint firstItem="464" firstAttribute="top" secondItem="457" secondAttribute="bottom" constant="24" id="722"/>
+                            <constraint firstItem="464" firstAttribute="leading" secondItem="461" secondAttribute="leading" constant="7" id="719"/>
+                            <constraint firstAttribute="trailing" secondItem="464" secondAttribute="trailing" constant="7" id="720"/>
+                            <constraint firstItem="458" firstAttribute="top" secondItem="464" secondAttribute="bottom" constant="7" id="721"/>
+                            <constraint firstItem="464" firstAttribute="top" secondItem="457" secondAttribute="bottom" constant="7" id="722"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="imgCard" destination="464" id="name-outlet-464"/>
+                        <segue destination="1381" kind="modal" id="1385"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="462" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -279,21 +280,6 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="488"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1192" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
-                                <rect key="frame" x="42" y="195" width="75" height="75"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="" backgroundImage="BusidexLogo4a.png">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleColor" colorSpace="calibratedRGB" red="0.19215686274509805" green="0.30588235294117649" blue="0.52156862745098043" alpha="1"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1193" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
-                                <rect key="frame" x="42" y="90" width="75" height="75"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="" backgroundImage="spotlight-icon.png">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" style="gray" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1195">
                                 <rect key="frame" x="125" y="242" width="37" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -306,7 +292,14 @@
                                 <color key="textColor" colorSpace="calibratedRGB" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Search for a Card" lineBreakMode="tailTruncation" minimumFontSize="10" id="1203" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="center">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1193" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="42" y="90" width="252" height="75"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="" backgroundImage="">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Search for a Card" lineBreakMode="tailTruncation" minimumFontSize="10" id="1203" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="left">
                                 <rect key="frame" x="125" y="109" width="163" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -314,7 +307,15 @@
                                 <color key="textColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Go to My Busidex" lineBreakMode="tailTruncation" minimumFontSize="10" id="1204" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="center">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1192" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="42" y="195" width="252" height="75"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="" backgroundImage="">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" colorSpace="calibratedRGB" red="0.19215686274509805" green="0.30588235294117649" blue="0.52156862745098043" alpha="1"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Go to My Busidex" lineBreakMode="tailTruncation" minimumFontSize="10" id="1204" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="left">
                                 <rect key="frame" x="125" y="213" width="163" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -322,6 +323,14 @@
                                 <color key="textColor" colorSpace="calibratedRGB" red="1" green="1" blue="1" alpha="1"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="1234" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" image="spotlight-icon.png">
+                                <rect key="frame" x="42" y="90" width="75" height="75"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="1235" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" image="BusidexLogo4a.png">
+                                <rect key="frame" x="42" y="195" width="75" height="75"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
                         </subviews>
                     </view>
                     <connections>
@@ -334,6 +343,23 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1190" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="637" y="-14"/>
+        </scene>
+        <scene sceneID="1380">
+            <objects>
+                <viewController id="1381" sceneMemberID="viewController" customClass="CardOptionsController" storyboardIdentifier="CardOptionsController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1378"/>
+                        <viewControllerLayoutGuide type="bottom" id="1379"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1382">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1383" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1215" y="537"/>
         </scene>
     </scenes>
     <resources>

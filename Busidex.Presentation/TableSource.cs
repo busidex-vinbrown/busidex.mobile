@@ -99,8 +99,8 @@ namespace Busidex.Presentation.IOS
 
 				CardImageButton.Tag = 1;
 
-				var fileName = System.IO.Path.Combine (documentsPath + "/", card.Card.FrontFileId + "." + card.Card.FrontType);
-				var imagePath = Busidex.Mobile.Utils.CARD_PATH + card.Card.FrontFileId + "." + card.Card.FrontType;
+				var fileName = System.IO.Path.Combine (documentsPath, card.Card.FrontFileId + "." + card.Card.FrontType);
+				//var imagePath = Busidex.Mobile.Utils.CARD_PATH + card.Card.FrontFileId + "." + card.Card.FrontType;
 
 				if (File.Exists (fileName)) {
 					CardImageButton.SetBackgroundImage (UIImage.FromFile (fileName), UIControlState.Normal); 

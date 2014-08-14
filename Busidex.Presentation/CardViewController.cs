@@ -31,6 +31,7 @@ namespace Busidex.Presentation
 
 					imgCard.Image = UIImage.FromFile (FileName);
 
+
 				}
 			}
 		}

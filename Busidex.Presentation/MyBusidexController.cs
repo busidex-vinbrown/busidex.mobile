@@ -17,6 +17,7 @@ namespace Busidex.Presentation.IOS
 		public static NSString BusidexCellId = new NSString ("cellId");
 		string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 
+
 		public MyBusidexController (IntPtr handle) : base (handle)
 		{
 			TableView.RegisterClassForCellReuse (typeof(UITableViewCell), BusidexCellId);
@@ -40,6 +41,37 @@ namespace Busidex.Presentation.IOS
 			}
 		}
 
+		private void LoadMyBusidex(string data){
+			MyBusidexResponse MyBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (data);
+
+			Application.MyBusidex = new List<UserCard> ();
+			Application.MyBusidex.AddRange (MyBusidexResponse.MyBusidex.Busidex.Where (c => c.Card != null));
+
+			var src = new TableSource (Application.MyBusidex);
+
+			src.CardSelected += delegate {
+				GoToCard();
+			};
+			if (this.TableView.Source == null) {
+				this.TableView.Source = src;
+			}
+			this.TableView.AllowsSelection = true;
+		}
+
+		private void LoadMyBusidexFromFile(string fullFilePath){
+		
+			if(File.Exists(fullFilePath)){
+				var myBusidexFile = File.OpenText (fullFilePath);
+				var myBusidexJson = myBusidexFile.ReadToEnd ();
+				LoadMyBusidex (myBusidexJson);
+			}
+		}
+
+		private void SaveMyBusidexResponse(string response){
+			var fullFilePath = Path.Combine (documentsPath, Application.MY_BUSIDEX_FILE);
+			File.WriteAllText (fullFilePath, response);
+		}
+
 		private void LoadMyBusidexAsync(){
 			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.Where(c=>c.Name == "UserId").SingleOrDefault();
 
@@ -49,51 +81,9 @@ namespace Busidex.Presentation.IOS
 				var response = ctrl.GetMyBusidex (cookie.Value);
 
 				if(!string.IsNullOrEmpty(response)){
-					MyBusidexResponse MyBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (response);
+					LoadMyBusidex (response);
 
-					List<UserCard> cards = new List<UserCard> ();
-					//prgDownload.Progress = 0f;
-
-					//Progress<DownloadProgress> progressReporter = new Progress<DownloadProgress> ();
-					//progressReporter.ProgressChanged += (s, args) =>  prgDownload.Progress = args.PercentComplete;
-
-					int processed = 0;
-					foreach (var item in MyBusidexResponse.MyBusidex.Busidex) {
-						if (item.Card != null) {
-
-//							var imagePath = Busidex.Mobile.Utils.CARD_PATH + item.Card.FrontFileId + "." + item.Card.FrontType;
-//							var fName = item.Card.FrontFileId + item.Card.FrontType;
-
-//							if (!File.Exists (fName)) {
-//								Busidex.Mobile.Utils.DownloadImage (imagePath, documentsPath, fName).ContinueWith (t => {
-//
-////									IProgress<DownloadProgress> reporter = new Progress<DownloadProgress> ();
-////
-////									float currentItem = ++processed;
-////									float total = MyBusidexResponse.MyBusidex.Busidex.Count ();
-////									var pct = Math.Round ((currentItem / total), 2) * 100;
-////
-////									if (pct >= 100) {
-////
-////									} else {
-////										DownloadProgress args = new DownloadProgress(fName, currentItem, total);
-////										reporter.Report(args);
-////
-////									}
-//								});
-//							}
-							cards.Add (item);
-						}
-					}
-
-					var src = new TableSource (cards);
-
-					src.CardSelected += delegate {
-						GoToCard();
-					};
-					this.TableView.Source = src;
-					this.TableView.AllowsSelection = true;
-
+					SaveMyBusidexResponse (response);
 				}
 			}
 		}
@@ -109,12 +99,14 @@ namespace Busidex.Presentation.IOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-
-			LoadMyBusidexAsync ();
-
-
-
-
+			var fullFilePath = Path.Combine (documentsPath, Application.MY_BUSIDEX_FILE);
+			if (File.Exists (fullFilePath)) {
+				LoadMyBusidexFromFile (fullFilePath);
+			} else {
+				LoadMyBusidexAsync ();
+			}
 		}
+
+
 	}
 }

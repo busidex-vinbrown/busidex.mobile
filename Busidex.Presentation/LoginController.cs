@@ -66,6 +66,13 @@ namespace Busidex.Presentation.IOS
 
 					NSHttpCookieStorage.SharedStorage.SetCookie(cookie);
 
+					var user = NSUserDefaults.StandardUserDefaults;
+					user.SetString(username, "UserName");
+					user.SetString(password, "Password");
+					user.SetString(username + "@busidex.com", "Email");
+					user.SetBool(true, "AutoSync");
+					user.Synchronize();
+
 					GoToHome();
 				}else{
 					lblLoginResult.Text = "Login Failed";

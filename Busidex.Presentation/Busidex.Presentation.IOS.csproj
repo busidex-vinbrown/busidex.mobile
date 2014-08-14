@@ -103,6 +103,7 @@
     <BundleResource Include="Resources\BusidexLogo4a.png" />
     <BundleResource Include="Resources\signin.png" />
     <BundleResource Include="Resources\appBackground.png" />
+    <BundleResource Include="Settings.bundle\Root.plist" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -152,6 +153,10 @@
     <Compile Include="StartupController.cs" />
     <Compile Include="StartupController.designer.cs">
       <DependentUpon>StartupController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CardOptionsController.cs" />
+    <Compile Include="CardOptionsController.designer.cs">
+      <DependentUpon>CardOptionsController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

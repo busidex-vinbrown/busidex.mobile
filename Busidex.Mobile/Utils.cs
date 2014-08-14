@@ -37,16 +37,21 @@ namespace Busidex.Mobile
 			string jpgFilename = System.IO.Path.Combine (documentsPath, fileName);
 
 			var webClient = new WebClient ();
-			webClient.DownloadDataCompleted += (s, e) => {
-				var bytes = e.Result; // get the downloaded data
+//			webClient.DownloadDataCompleted += (s, e) => {
+//				var bytes = e.Result; // get the downloaded data
+//
+//				string localPath = Path.Combine (documentsPath, fileName);
+//				if(bytes != null){
+//					File.WriteAllBytes (localPath, bytes); // writes to local storage  
+//				}
+//			};
 
-				string localPath = Path.Combine (documentsPath, fileName);
-				if(bytes != null){
-					File.WriteAllBytes (localPath, bytes); // writes to local storage  
-				}
-			};
+			var imageData = webClient.DownloadData (new Uri (imagePath));
 
-			 webClient.DownloadDataAsync (new Uri (imagePath));
+			string localPath = Path.Combine (documentsPath, fileName);
+			if(imageData != null){
+				File.WriteAllBytes (localPath, imageData); // writes to local storage  
+			}
 
 			return jpgFilename;
 		}
