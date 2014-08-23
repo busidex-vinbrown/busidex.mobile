@@ -9,13 +9,29 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using System.CodeDom.Compiler;
 
-namespace Busidex.Presentation
+namespace Busidex.Presentation.IOS
 {
 	[Register ("CardOptionsController")]
 	partial class CardOptionsController
 	{
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton btnAdd { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton btnDismiss { get; set; }
+
 		void ReleaseDesignerOutlets ()
 		{
+			if (btnAdd != null) {
+				btnAdd.Dispose ();
+				btnAdd = null;
+			}
+			if (btnDismiss != null) {
+				btnDismiss.Dispose ();
+				btnDismiss = null;
+			}
 		}
 	}
 }

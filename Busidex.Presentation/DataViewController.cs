@@ -9,7 +9,7 @@ using System.IO;
 
 namespace Busidex.Presentation.IOS
 {
-	public partial class DataViewController : UIViewController
+	public partial class DataViewController : BaseController
 	{
 
 		public DataViewController (IntPtr handle) : base (handle)
@@ -130,19 +130,8 @@ namespace Busidex.Presentation.IOS
 			}
 		}
 
-//		private void GoToLogin ()
-//		{
-//			var loginController = this.Storyboard.InstantiateViewController ("LoginController") as LoginController;
-//
-//			if (loginController != null) {
-//				this.NavigationController.PushViewController (loginController, true);
-//
-//			}
-//		}
-
 		private void GoToMyBusidex ()
 		{
-			//prgDownload.Hidden = true;
 			var myBusidexController = this.Storyboard.InstantiateViewController ("MyBusidexController") as MyBusidexController;
 
 			if (myBusidexController != null && this.NavigationController.ChildViewControllers.Where(c=> c is MyBusidexController).Count() == 0){
@@ -161,54 +150,41 @@ namespace Busidex.Presentation.IOS
 
 		private void LoadMyBusidexAsync(){
 			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.Where(c=>c.Name == "UserId").SingleOrDefault();
+			const string EMPTY_CARD_ID = "b66ff0ee-e67a-4bbc-af3b-920cd0de56c6";
 
 			if (cookie != null) {
 
 				var ctrl = new Busidex.Mobile.MyBusidexController ();
 				var response = ctrl.GetMyBusidex (cookie.Value);
 
-
 				if(!string.IsNullOrEmpty(response)){
 					MyBusidexResponse MyBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (response);
-					//float total = MyBusidexResponse.MyBusidex.Busidex.Count ();
 
 					List<UserCard> cards = new List<UserCard> ();
 
-					//float processed = 0;
 					foreach (var item in MyBusidexResponse.MyBusidex.Busidex) {
 						if (item.Card != null) {
 
-							var imagePath = Busidex.Mobile.Utils.CARD_PATH + item.Card.FrontFileId + "." + item.Card.FrontType;
+							var fImagePath = Busidex.Mobile.Utils.CARD_PATH + item.Card.FrontFileId + "." + item.Card.FrontType;
+							var bImagePath = Busidex.Mobile.Utils.CARD_PATH + item.Card.BackFileId + "." + item.Card.BackType;
 							var fName = item.Card.FrontFileId + "." + item.Card.FrontType;
+							var bName = item.Card.BackFileId + "." + item.Card.BackType;
 
 							cards.Add (item);
 
-							//float currentItem = ++processed;
-						
-							//var pct = Math.Round ((currentItem / total), 2) * 100;
-
 							if (!File.Exists (documentsPath + "/" + fName)) {
-								 	Busidex.Mobile.Utils.DownloadImage (imagePath, documentsPath, fName).ContinueWith (t => {
-
-//									if (pct >= 100) {
-//										InvokeOnMainThread (() => {	
-//											GoToMyBusidex ();
-//										});
-//									}  
-
-								});
+								Busidex.Mobile.Utils.DownloadImage (fImagePath, documentsPath, fName).ContinueWith (t => {	});
 							} 
 
+							if (!File.Exists (documentsPath + "/" + bName) && item.Card.BackFileId.ToString() != EMPTY_CARD_ID) {
+								Busidex.Mobile.Utils.DownloadImage (bImagePath, documentsPath, bName).ContinueWith (t => {	});
+							} 
 						}
 					}
-//					if (processed == total) {
-//						InvokeOnMainThread (() => {	
-							lblLoading.Hidden = true;
-							spnLoading.Hidden = true;
-							GoToMyBusidex ();
-					//	});
-					//} 
 
+					lblLoading.Hidden = true;
+					spnLoading.Hidden = true;
+					GoToMyBusidex ();
 				}
 			}
 		}

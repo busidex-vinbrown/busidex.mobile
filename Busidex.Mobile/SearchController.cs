@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Busidex.Mobile
 {
@@ -13,20 +14,33 @@ namespace Busidex.Mobile
 		{
 		}
 
-		public string DoSearch(string criteria, string userToken){
+		public async Task<string> DoSearch(string criteria, string userToken){
 
-			string url = "https://www.busidexapi.com/api/search/DoSearch";
+			string url = "https://www.busidexapi.com/api/search/Search";
 			string data = 
-				@"{" +
-				"'Criteria': ''," + 
-				"'SearchText':'" + criteria + "', " + 
-				"'TagSearch': 'false'," + 
-				"'SearchModel': { " + "'Results': []," + 
-				"'UserId': null," + 
-				"'NoResults': 'false'," +
-				"'SearchResultsMessage': ''," +
-				"'UserId': '0'}" +
-				"}";
+			@"{" + 
+				"'Success': true," + 
+				"'SearchModel': {" + 
+				"'UserId': 0," + 
+			"'Criteria': '" + criteria + "'," + 
+			"'SearchText': '" + criteria + "'," + 
+			"'SearchAddress': null," + 
+			"'SearchLocation': 0," + 
+			"'Results': []," + 
+			"'IsLoggedIn': true," + 
+			"'HasResults': true," + 
+			"'Display': 0," + 
+			"'Distance': 25," + 
+			"'TagCloud': { }," + 
+			"'CardType': 0" + 
+			"}," + 
+			"'TagSearch': false," + 
+			"'SearchText': '" + criteria + "'," + 
+			"'NoResults': false," + 
+			"'SearchResultsMessage': ''," + 
+			"'UserId': 0," + 
+			"'CardType': 1" + 
+			"}";
 
 			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
 			request.Method = "POST";
@@ -39,7 +53,7 @@ namespace Busidex.Mobile
 			request.Headers.Add ("X-Authorization-Token", userToken);
 
 			try {
-				WebResponse webResponse = request.GetResponse();
+				WebResponse webResponse = await request.GetResponseAsync();
 				Stream webStream = webResponse.GetResponseStream();
 				StreamReader responseReader = new StreamReader(webStream);
 				string response = responseReader.ReadToEnd();

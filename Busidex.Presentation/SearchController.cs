@@ -9,13 +9,15 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace Busidex.Presentation.IOS
 {
-	partial class SearchController : UIViewController
+	partial class SearchController : BaseController
 	{
 		public static NSString cellID = new NSString ("cellId");
 		string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+		LoadingOverlay Overlay;
 
 		public SearchController (IntPtr handle) : base (handle)
 		{
@@ -37,11 +39,13 @@ namespace Busidex.Presentation.IOS
 			//vwSearchResults.RegisterClassForCell (typeof(SearchViewCell), cellID);
 			vwSearchResults.RegisterClassForCellReuse (typeof(UITableViewCell), cellID);
 
+
 			vwSearchResults.Hidden = true;
 			btnSearch.TouchUpInside += delegate {
-				DoSearch();
-				vwSearchResults.Hidden = false;
-				txtSearch.ResignFirstResponder(); // hide keyboard
+				StartSearch ();
+					DoSearch();
+					vwSearchResults.Hidden = false;
+					txtSearch.ResignFirstResponder(); // hide keyboard
 			};
 		}
 			
@@ -74,23 +78,37 @@ namespace Busidex.Presentation.IOS
 			this.vwSearchResults.AllowsSelection = true;
 			this.vwSearchResults.SetNeedsDisplay ();
 
+			Overlay.Hide ();
+
 		}
 
-		public void DoSearch(){
+		private void StartSearch(){
+
+			this.InvokeOnMainThread (() => {
+				Overlay = new LoadingOverlay (UIScreen.MainScreen.Bounds);
+				View.Add (Overlay);
+			});
+
+			this.vwSearchResults.Source = new TableSource (new List<UserCard>());
+			this.vwSearchResults.ReloadData ();
+			this.vwSearchResults.AllowsSelection = true;
+			this.vwSearchResults.SetNeedsDisplay ();
+
+			this.View.SetNeedsDisplay ();
+
+		}
+
+		public async Task<int> DoSearch(){
 
 			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.Where(c=>c.Name == "UserId").SingleOrDefault();
 			string token = string.Empty;
-
-
-			this.vwSearchResults.Source = new  TableSource (new List<UserCard> ());
-			this.vwSearchResults.SetNeedsDisplay ();
 
 			if (cookie != null) {
 				token = Convert.ToBase64String (System.Text.Encoding.ASCII.GetBytes (cookie.Value));
 			}
 
 			var ctrl = new Busidex.Mobile.SearchController ();
-			var response = ctrl.DoSearch (txtSearch.Text, token);
+			string response = await ctrl.DoSearch (txtSearch.Text, token);
 
 			if (!string.IsNullOrEmpty (response)) {
 			
@@ -130,6 +148,7 @@ namespace Busidex.Presentation.IOS
 					}
 				}
 			}
+			return 1;
 		}
 	}
 }

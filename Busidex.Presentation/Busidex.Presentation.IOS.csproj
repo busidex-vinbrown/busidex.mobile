@@ -158,6 +158,7 @@
     <Compile Include="CardOptionsController.designer.cs">
       <DependentUpon>CardOptionsController.cs</DependentUpon>
     </Compile>
+    <Compile Include="BaseController.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPhone.storyboard" />

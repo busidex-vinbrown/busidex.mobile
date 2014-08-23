@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Busidex.Presentation.IOS
 {
-	partial class StartupController : UIViewController
+	partial class StartupController : BaseController
 	{
 		const string TEST_ACCOUNT_ID = "45ef6a4e-3c9d-452c-9409-9e4d7b6e532f";
 		const bool DEVELOPMENT_MODE = true;

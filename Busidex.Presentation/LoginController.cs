@@ -6,7 +6,7 @@ using System.CodeDom.Compiler;
 
 namespace Busidex.Presentation.IOS
 {
-	partial class LoginController : UIViewController
+	partial class LoginController : BaseController
 	{
 		LoadingOverlay loadingOverlay;
 
@@ -58,7 +58,7 @@ namespace Busidex.Presentation.IOS
 				if(UserId > 0){
 
 					var nCookie = new System.Net.Cookie();
-					nCookie.Name = "UserId";
+					nCookie.Name = Busidex.Mobile.Resources.AuthenticationCookieName;
 					DateTime expiration = DateTime.Now.AddYears(1);
 					nCookie.Expires = expiration;
 					nCookie.Value = EncodeUserId(UserId);

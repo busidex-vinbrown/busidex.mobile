@@ -9,20 +9,20 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using System.CodeDom.Compiler;
 
-namespace Busidex.Presentation
+namespace Busidex.Presentation.IOS
 {
 	[Register ("CardViewController")]
 	partial class CardViewController
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIImageView imgCard { get; set; }
+		UIButton btnCard { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
-			if (imgCard != null) {
-				imgCard.Dispose ();
-				imgCard = null;
+			if (btnCard != null) {
+				btnCard.Dispose ();
+				btnCard = null;
 			}
 		}
 	}
