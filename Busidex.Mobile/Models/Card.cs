@@ -43,7 +43,7 @@ namespace Busidex.Mobile.Models
 		public string BackImageString{ get; set; }
 		public string FrontImageString{ get; set; }
 		public string TagList{ get; set; }
-
+		public bool ExistsInMyBusidex{ get; set; }
 	}
 }
 

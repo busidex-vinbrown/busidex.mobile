@@ -1,1 +1,1 @@
-load images async
+added maps and add to my busidex

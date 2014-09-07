@@ -20,6 +20,7 @@ namespace Busidex.Mobile.Models
 		public bool MobileView{ get; set; }
 		public Card Card{ get; set; }
 		public List<Card> RelatedCards{ get; set; }
+		public bool ExistsInMyBusidex{ get; set; }
 	}
 }
 

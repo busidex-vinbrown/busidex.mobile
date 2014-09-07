@@ -46,22 +46,6 @@ namespace Busidex.Presentation.IOS
 			return string.Empty;
 		}
 
-//		private void DoLogin(){
-//			string uidId = GetDeviceId ();
-//			var userId = Busidex.Mobile.LoginController.DoLogin (uidId);
-//			if (userId > 0) {
-//				var nCookie = new System.Net.Cookie();
-//
-//				nCookie.Name = "UserId";
-//				DateTime expiration = DateTime.Now.AddYears(1);
-//				nCookie.Expires = expiration;
-//				nCookie.Value = EncodeUserId(userId);
-//				var cookie = new NSHttpCookie(nCookie);
-//
-//				NSHttpCookieStorage.SharedStorage.SetCookie(cookie);
-//			}
-//		}
-
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
@@ -73,25 +57,6 @@ namespace Busidex.Presentation.IOS
 			 * the userId. Set the authentication cookie and continue.
 			 */
 
-//			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies
-//									.Where(c=>c.Name == Busidex.Mobile.Resources.AuthenticationCookieName)
-//									.SingleOrDefault();
-//			long userId;
-//			if (cookie != null) {
-//				userId = Busidex.Mobile.Utils.DecodeUserId (cookie.Value);
-//				if (userId > 0) {
-//					//UserId = userId;
-//					SetLoginDisplay (LoginVisibleSetting.Hide);
-//				} else {
-//					DoLogin ();
-//					SetLoginDisplay (LoginVisibleSetting.Hide);
-//				}
-//			} else {
-//				DoLogin ();
-//
-//				SetLoginDisplay (LoginVisibleSetting.Hide);
-//			}
-
 
 			btnGoToSearch.TouchUpInside += delegate {
 				GoToSearch();
@@ -102,17 +67,11 @@ namespace Busidex.Presentation.IOS
 			};
 
 			btnGoToMyBusidex.TouchDown += delegate {
-//				prgDownload.Hidden = false;
-//				prgDownload.SetNeedsDisplay ();
 				lblLoading.Hidden = false;
 				spnLoading.Hidden = false;
 			};
 			lblLoading.Hidden = true;
 			spnLoading.Hidden = true;
-
-//			prgDownload.SetProgress (0f, false);
-
-			// Perform any additional setup after loading the view, typically from a nib.
 		}
 
 		private string EncodeUserId(long userId){

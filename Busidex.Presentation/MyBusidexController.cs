@@ -12,15 +12,73 @@ using Newtonsoft.Json;
 
 namespace Busidex.Presentation.IOS
 {
-	partial class MyBusidexController : UITableViewController
+	partial class MyBusidexController : BaseController
 	{
 		public static NSString BusidexCellId = new NSString ("cellId");
 		string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-
+		//UISearchBar SearchBar;
+		List<UserCard> FilterResults;
 
 		public MyBusidexController (IntPtr handle) : base (handle)
 		{
-			TableView.RegisterClassForCellReuse (typeof(UITableViewCell), BusidexCellId);
+
+
+		}
+
+		private void SetFilter(string filter){
+			FilterResults = new List<UserCard> ();
+			FilterResults.AddRange (
+				Application.MyBusidex.Where (c => 
+					c.Card.Name.Contains (filter) ||
+				(!string.IsNullOrEmpty (c.Card.CompanyName) && c.Card.CompanyName.Contains (filter)) ||
+				(!string.IsNullOrEmpty (c.Card.Email) && c.Card.Email.Contains (filter)) ||
+				(!string.IsNullOrEmpty (c.Card.Url) && c.Card.Url.Contains (filter)) ||
+				(c.Card.PhoneNumbers != null && c.Card.PhoneNumbers.Any (p => p.Number.Contains (filter)))
+				));
+
+			var src = new TableSource (FilterResults);
+			src.ShowNoCardMessage = true;
+			src.CardSelected += delegate {
+				GoToCard();
+			};
+
+			TableView.Source = src;
+			TableView.ReloadData ();
+			TableView.AllowsSelection = true;
+			TableView.SetNeedsDisplay ();
+		}
+
+		private void ResetFilter(){
+
+			var src = new TableSource (Application.MyBusidex);
+			SearchBar.Text = string.Empty;
+			src.ShowNoCardMessage = true;
+			src.CardSelected += delegate {
+				GoToCard();
+			};
+				
+			TableView.Source = src;
+			TableView.ReloadData ();
+			TableView.AllowsSelection = true;
+			TableView.SetNeedsDisplay ();
+		}
+
+		private void ConfigureSearchBar(){
+			//SearchBar = new UISearchBar ();
+			SearchBar.Placeholder = "Filter";
+			//SearchBar.ShowsSearchResultsButton = true;
+			SearchBar.ShowsCancelButton = true;
+			//SearchBar.Frame = new System.Drawing.RectangleF (0, 0, UIScreen.MainScreen.Bounds.Width, 40);
+
+
+			SearchBar.SearchButtonClicked += delegate {
+				SetFilter(SearchBar.Text);
+				SearchBar.ResignFirstResponder();
+			};
+			SearchBar.CancelButtonClicked += delegate {
+				ResetFilter();
+				SearchBar.ResignFirstResponder();
+			};
 
 		}
 
@@ -45,10 +103,11 @@ namespace Busidex.Presentation.IOS
 			MyBusidexResponse MyBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (data);
 
 			Application.MyBusidex = new List<UserCard> ();
+			MyBusidexResponse.MyBusidex.Busidex.ForEach (c => c.ExistsInMyBusidex = true);
 			Application.MyBusidex.AddRange (MyBusidexResponse.MyBusidex.Busidex.Where (c => c.Card != null));
 
 			var src = new TableSource (Application.MyBusidex);
-
+			src.ShowNoCardMessage = true;
 			src.CardSelected += delegate {
 				GoToCard();
 			};
@@ -99,7 +158,18 @@ namespace Busidex.Presentation.IOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+
+			//if (this.TableView == null) {
+			//	this.TableView = new UITableView();
+			//}
+			//if (this.SearchBar == null) {
+			//	SearchBar = new UISearchBar ();
+			//}
+
+			ConfigureSearchBar ();
+
 			var fullFilePath = Path.Combine (documentsPath, Application.MY_BUSIDEX_FILE);
+			this.TableView.RegisterClassForCellReuse (typeof(UITableViewCell), BusidexCellId);
 			if (File.Exists (fullFilePath)) {
 				LoadMyBusidexFromFile (fullFilePath);
 			} else {

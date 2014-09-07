@@ -104,6 +104,8 @@
     <BundleResource Include="Resources\signin.png" />
     <BundleResource Include="Resources\appBackground.png" />
     <BundleResource Include="Settings.bundle\Root.plist" />
+    <BundleResource Include="Resources\checkmark.png" />
+    <BundleResource Include="Resources\maps.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />

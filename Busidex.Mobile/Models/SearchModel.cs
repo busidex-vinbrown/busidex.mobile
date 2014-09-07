@@ -15,7 +15,6 @@ namespace Busidex.Mobile
 		public string SearchText{ get; set; }
 		public string SearchAddress{ get; set; }
 		public long SearchLocation{ get; set; }
-
 		public List<Card> Results{ get; set; }
 	}
 }

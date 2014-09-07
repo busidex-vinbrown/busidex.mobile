@@ -16,11 +16,7 @@ namespace Busidex.Presentation.IOS
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton btnSearch { get; set; }
-
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UITextField txtSearch { get; set; }
+		UISearchBar txtSearch { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -28,10 +24,6 @@ namespace Busidex.Presentation.IOS
 
 		void ReleaseDesignerOutlets ()
 		{
-			if (btnSearch != null) {
-				btnSearch.Dispose ();
-				btnSearch = null;
-			}
 			if (txtSearch != null) {
 				txtSearch.Dispose ();
 				txtSearch = null;

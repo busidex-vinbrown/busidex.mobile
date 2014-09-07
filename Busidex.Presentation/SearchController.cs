@@ -41,11 +41,15 @@ namespace Busidex.Presentation.IOS
 
 
 			vwSearchResults.Hidden = true;
-			btnSearch.TouchUpInside += delegate {
+			txtSearch.SearchButtonClicked += delegate {
 				StartSearch ();
 					DoSearch();
 					vwSearchResults.Hidden = false;
 					txtSearch.ResignFirstResponder(); // hide keyboard
+			};
+			txtSearch.SearchBarStyle = UISearchBarStyle.Minimal;
+			txtSearch.CancelButtonClicked += delegate {
+				txtSearch.ResignFirstResponder();
 			};
 		}
 			
@@ -70,9 +74,12 @@ namespace Busidex.Presentation.IOS
 		private void LoadSearchResults(List<UserCard> cards){
 
 			var src = new TableSource (cards);
+			src.ShowNoCardMessage = false;
 			src.CardSelected += delegate {
 				GoToCard();
 			};
+			src.CardAddedToMyBusidex += new CardAddedToMyBusidexHandler (AddCardToMyBusidex);
+
 			this.vwSearchResults.Source = src; //new CollectionSource (cards);
 			this.vwSearchResults.ReloadData ();
 			this.vwSearchResults.AllowsSelection = true;
@@ -82,6 +89,23 @@ namespace Busidex.Presentation.IOS
 
 		}
 
+		private void AddCardToMyBusidex(UserCard userCard){
+			var fullFilePath = Path.Combine (documentsPath, Application.MY_BUSIDEX_FILE);
+			// we only need to update the file if they've gotten their busidex. If they haven't, the new card will
+			// come along with all the others
+			var file = string.Empty;
+			if (File.Exists (fullFilePath)) {
+				using (var myBusidexFile = File.OpenText (fullFilePath)) {
+					var myBusidexJson = myBusidexFile.ReadToEnd ();
+					MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
+					myBusidexResponse.MyBusidex.Busidex.Add (userCard);
+					file = Newtonsoft.Json.JsonConvert.SerializeObject(myBusidexResponse);
+				}
+
+				File.WriteAllText (fullFilePath, file);
+			}
+		}
+
 		private void StartSearch(){
 
 			this.InvokeOnMainThread (() => {
@@ -89,7 +113,8 @@ namespace Busidex.Presentation.IOS
 				View.Add (Overlay);
 			});
 
-			this.vwSearchResults.Source = new TableSource (new List<UserCard>());
+			var src = new TableSource (new List<UserCard>());
+			this.vwSearchResults.Source = src;
 			this.vwSearchResults.ReloadData ();
 			this.vwSearchResults.AllowsSelection = true;
 			this.vwSearchResults.SetNeedsDisplay ();
@@ -104,7 +129,7 @@ namespace Busidex.Presentation.IOS
 			string token = string.Empty;
 
 			if (cookie != null) {
-				token = Convert.ToBase64String (System.Text.Encoding.ASCII.GetBytes (cookie.Value));
+				token = cookie.Value;// Convert.ToBase64String (System.Text.Encoding.ASCII.GetBytes (cookie.Value));
 			}
 
 			var ctrl = new Busidex.Mobile.SearchController ();
@@ -124,12 +149,13 @@ namespace Busidex.Presentation.IOS
 						var fName = item.FrontFileId + "." + item.FrontType;
 
 						var userCard = new UserCard ();
+						userCard.ExistsInMyBusidex = item.ExistsInMyBusidex;
 						userCard.Card = item;
 						userCard.CardId = item.CardId;
 						cards.Add (userCard);
 
 						if (!File.Exists (System.IO.Path.Combine (documentsPath, item.FrontFileId + "." + item.FrontType))) {
-							Busidex.Mobile.Utils.DownloadImage (imagePath, documentsPath, fName).ContinueWith (t => {
+							await Busidex.Mobile.Utils.DownloadImage (imagePath, documentsPath, fName).ContinueWith (t => {
 
 								if (++processed == total) {
 

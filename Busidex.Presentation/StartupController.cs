@@ -33,6 +33,7 @@ namespace Busidex.Presentation.IOS
 			}
 
 			btnStart.TouchUpInside += delegate {
+				DoLogin();
 				GoToMain();
 			};
 
