@@ -29,7 +29,7 @@ namespace Busidex.Presentation.IOS
 			FilterResults = new List<UserCard> ();
 			FilterResults.AddRange (
 				Application.MyBusidex.Where (c => 
-					c.Card.Name.Contains (filter) ||
+					(!string.IsNullOrEmpty (c.Card.Name) && c.Card.Name.Contains (filter)) ||
 				(!string.IsNullOrEmpty (c.Card.CompanyName) && c.Card.CompanyName.Contains (filter)) ||
 				(!string.IsNullOrEmpty (c.Card.Email) && c.Card.Email.Contains (filter)) ||
 				(!string.IsNullOrEmpty (c.Card.Url) && c.Card.Url.Contains (filter)) ||
@@ -41,7 +41,9 @@ namespace Busidex.Presentation.IOS
 			src.CardSelected += delegate {
 				GoToCard();
 			};
-
+			src.EditingNotes += delegate {
+				EditNotes();
+			};
 			TableView.Source = src;
 			TableView.ReloadData ();
 			TableView.AllowsSelection = true;
@@ -56,7 +58,9 @@ namespace Busidex.Presentation.IOS
 			src.CardSelected += delegate {
 				GoToCard();
 			};
-				
+			src.EditingNotes += delegate {
+				EditNotes();
+			};	
 			TableView.Source = src;
 			TableView.ReloadData ();
 			TableView.AllowsSelection = true;
@@ -66,6 +70,7 @@ namespace Busidex.Presentation.IOS
 		private void ConfigureSearchBar(){
 			//SearchBar = new UISearchBar ();
 			SearchBar.Placeholder = "Filter";
+			SearchBar.BarStyle = UIBarStyle.Default;
 			//SearchBar.ShowsSearchResultsButton = true;
 			SearchBar.ShowsCancelButton = true;
 			//SearchBar.Frame = new System.Drawing.RectangleF (0, 0, UIScreen.MainScreen.Bounds.Width, 40);
@@ -99,6 +104,15 @@ namespace Busidex.Presentation.IOS
 			}
 		}
 
+		private void EditNotes(){
+
+			var notesController = this.Storyboard.InstantiateViewController ("NotesController") as NotesController;
+			notesController.UserCard = ((TableSource)this.TableView.Source).SelectedCard;
+
+			if (notesController != null) {
+				this.NavigationController.PushViewController (notesController, true);
+			}
+		}
 		private void LoadMyBusidex(string data){
 			MyBusidexResponse MyBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (data);
 
@@ -111,6 +125,10 @@ namespace Busidex.Presentation.IOS
 			src.CardSelected += delegate {
 				GoToCard();
 			};
+			src.EditingNotes += delegate {
+				EditNotes();
+			};
+
 			if (this.TableView.Source == null) {
 				this.TableView.Source = src;
 			}

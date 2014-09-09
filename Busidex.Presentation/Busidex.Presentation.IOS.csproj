@@ -93,7 +93,7 @@
     <Reference Include="System.Json" />
     <Reference Include="MonoTouch.Dialog-1" />
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +106,7 @@
     <BundleResource Include="Settings.bundle\Root.plist" />
     <BundleResource Include="Resources\checkmark.png" />
     <BundleResource Include="Resources\maps.png" />
+    <BundleResource Include="Resources\notes.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -161,6 +162,10 @@
       <DependentUpon>CardOptionsController.cs</DependentUpon>
     </Compile>
     <Compile Include="BaseController.cs" />
+    <Compile Include="NotesController.cs" />
+    <Compile Include="NotesController.designer.cs">
+      <DependentUpon>NotesController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPhone.storyboard" />

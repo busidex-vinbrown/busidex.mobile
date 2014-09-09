@@ -47,7 +47,7 @@ namespace Busidex.Presentation.IOS
 					vwSearchResults.Hidden = false;
 					txtSearch.ResignFirstResponder(); // hide keyboard
 			};
-			txtSearch.SearchBarStyle = UISearchBarStyle.Minimal;
+			//txtSearch.SearchBarStyle = UISearchBarStyle.Minimal;
 			txtSearch.CancelButtonClicked += delegate {
 				txtSearch.ResignFirstResponder();
 			};
@@ -129,7 +129,7 @@ namespace Busidex.Presentation.IOS
 			string token = string.Empty;
 
 			if (cookie != null) {
-				token = cookie.Value;// Convert.ToBase64String (System.Text.Encoding.ASCII.GetBytes (cookie.Value));
+				token = cookie.Value;
 			}
 
 			var ctrl = new Busidex.Mobile.SearchController ();

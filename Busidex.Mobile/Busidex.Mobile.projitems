@@ -26,6 +26,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\SearchModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\LoginResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NotesController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SaveNotesResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

@@ -1,1 +1,1 @@
-added maps and add to my busidex
+fix nulll reference on active view
