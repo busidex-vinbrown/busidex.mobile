@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using Newtonsoft.Json;
+using MonoTouch.MessageUI;
 
 namespace Busidex.Presentation.IOS
 {
@@ -16,34 +17,27 @@ namespace Busidex.Presentation.IOS
 	{
 		public static NSString BusidexCellId = new NSString ("cellId");
 		string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-		//UISearchBar SearchBar;
 		List<UserCard> FilterResults;
 
 		public MyBusidexController (IntPtr handle) : base (handle)
 		{
-
-
 		}
 
 		private void SetFilter(string filter){
 			FilterResults = new List<UserCard> ();
+			string loweredFilter = filter.ToLowerInvariant ();
+
 			FilterResults.AddRange (
 				Application.MyBusidex.Where (c => 
-					(!string.IsNullOrEmpty (c.Card.Name) && c.Card.Name.Contains (filter)) ||
-				(!string.IsNullOrEmpty (c.Card.CompanyName) && c.Card.CompanyName.Contains (filter)) ||
-				(!string.IsNullOrEmpty (c.Card.Email) && c.Card.Email.Contains (filter)) ||
-				(!string.IsNullOrEmpty (c.Card.Url) && c.Card.Url.Contains (filter)) ||
-				(c.Card.PhoneNumbers != null && c.Card.PhoneNumbers.Any (p => p.Number.Contains (filter)))
+					(!string.IsNullOrEmpty (c.Card.Name) && c.Card.Name.ToLowerInvariant().Contains (loweredFilter)) ||
+					(!string.IsNullOrEmpty (c.Card.CompanyName) && c.Card.CompanyName.ToLowerInvariant().Contains (loweredFilter)) ||
+					(!string.IsNullOrEmpty (c.Card.Email) && c.Card.Email.ToLowerInvariant().Contains (loweredFilter)) ||
+					(!string.IsNullOrEmpty (c.Card.Url) && c.Card.Url.ToLowerInvariant().Contains (loweredFilter)) ||
+					(c.Card.PhoneNumbers != null && c.Card.PhoneNumbers.Any (p => p.Number.Contains (loweredFilter)))
 				));
-
-			var src = new TableSource (FilterResults);
-			src.ShowNoCardMessage = true;
-			src.CardSelected += delegate {
-				GoToCard();
-			};
-			src.EditingNotes += delegate {
-				EditNotes();
-			};
+					
+			TableSource src = ConfigureTableSourceEventHandlers(FilterResults);
+			src.IsFiltering = true;
 			TableView.Source = src;
 			TableView.ReloadData ();
 			TableView.AllowsSelection = true;
@@ -51,9 +45,19 @@ namespace Busidex.Presentation.IOS
 		}
 
 		private void ResetFilter(){
-
-			var src = new TableSource (Application.MyBusidex);
+		
 			SearchBar.Text = string.Empty;
+			TableSource src = ConfigureTableSourceEventHandlers(Application.MyBusidex);
+			src.IsFiltering = false;
+			TableView.Source = src;
+			TableView.ReloadData ();
+			TableView.AllowsSelection = true;
+			TableView.SetNeedsDisplay ();
+		}
+
+		private TableSource ConfigureTableSourceEventHandlers(List<UserCard> data){
+			var src = new TableSource (data);
+			src.ShowNotes = true;
 			src.ShowNoCardMessage = true;
 			src.CardSelected += delegate {
 				GoToCard();
@@ -61,20 +65,33 @@ namespace Busidex.Presentation.IOS
 			src.EditingNotes += delegate {
 				EditNotes();
 			};	
-			TableView.Source = src;
-			TableView.ReloadData ();
-			TableView.AllowsSelection = true;
-			TableView.SetNeedsDisplay ();
+			src.SendingEmail += delegate(string email) {
+				MFMailComposeViewController _mailController = new MFMailComposeViewController ();
+				_mailController.SetToRecipients (new string[]{email});
+				_mailController.Finished += ( object s, MFComposeResultEventArgs args) => {
+					args.Controller.DismissViewController (true, null);
+				};
+				this.PresentViewController (_mailController, true, null);
+			};
+
+			src.ViewWebsite += delegate(string url) {
+				UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + url.Replace("http://", "")));
+			};
+
+			src.CallingPhoneNumber += delegate {
+				ShowPhoneNumbers();
+			};
+			return src;
 		}
 
 		private void ConfigureSearchBar(){
 			//SearchBar = new UISearchBar ();
 			SearchBar.Placeholder = "Filter";
+
 			SearchBar.BarStyle = UIBarStyle.Default;
 			//SearchBar.ShowsSearchResultsButton = true;
 			SearchBar.ShowsCancelButton = true;
 			//SearchBar.Frame = new System.Drawing.RectangleF (0, 0, UIScreen.MainScreen.Bounds.Width, 40);
-
 
 			SearchBar.SearchButtonClicked += delegate {
 				SetFilter(SearchBar.Text);
@@ -84,7 +101,6 @@ namespace Busidex.Presentation.IOS
 				ResetFilter();
 				SearchBar.ResignFirstResponder();
 			};
-
 		}
 
 		public override void DidReceiveMemoryWarning ()
@@ -113,6 +129,16 @@ namespace Busidex.Presentation.IOS
 				this.NavigationController.PushViewController (notesController, true);
 			}
 		}
+
+		private void ShowPhoneNumbers(){
+			var phoneViewController = this.Storyboard.InstantiateViewController ("PhoneViewController") as PhoneViewController;
+			phoneViewController.UserCard = ((TableSource)this.TableView.Source).SelectedCard;
+
+			if (phoneViewController != null) {
+				this.NavigationController.PushViewController (phoneViewController, true);
+			}
+		}
+
 		private void LoadMyBusidex(string data){
 			MyBusidexResponse MyBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (data);
 
@@ -120,17 +146,8 @@ namespace Busidex.Presentation.IOS
 			MyBusidexResponse.MyBusidex.Busidex.ForEach (c => c.ExistsInMyBusidex = true);
 			Application.MyBusidex.AddRange (MyBusidexResponse.MyBusidex.Busidex.Where (c => c.Card != null));
 
-			var src = new TableSource (Application.MyBusidex);
-			src.ShowNoCardMessage = true;
-			src.CardSelected += delegate {
-				GoToCard();
-			};
-			src.EditingNotes += delegate {
-				EditNotes();
-			};
-
 			if (this.TableView.Source == null) {
-				this.TableView.Source = src;
+				this.TableView.Source = ConfigureTableSourceEventHandlers(Application.MyBusidex);
 			}
 			this.TableView.AllowsSelection = true;
 		}

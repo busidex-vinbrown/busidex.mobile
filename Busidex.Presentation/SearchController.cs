@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using MonoTouch.MessageUI;
 
 namespace Busidex.Presentation.IOS
 {
@@ -71,22 +72,52 @@ namespace Busidex.Presentation.IOS
 			}
 		}
 
-		private void LoadSearchResults(List<UserCard> cards){
+		private void ShowPhoneNumbers(){
+			var phoneViewController = this.Storyboard.InstantiateViewController ("PhoneViewController") as PhoneViewController;
+			phoneViewController.UserCard = ((TableSource)this.vwSearchResults.Source).SelectedCard;
 
-			var src = new TableSource (cards);
-			src.ShowNoCardMessage = false;
+			if (phoneViewController != null) {
+				this.NavigationController.PushViewController (phoneViewController, true);
+			}
+		}
+
+		private TableSource ConfigureTableSourceEventHandlers(List<UserCard> data){
+			var src = new TableSource (data);
+			src.ShowNotes = false;
+			src.ShowNoCardMessage = true;
 			src.CardSelected += delegate {
 				GoToCard();
 			};
+				
+			src.SendingEmail += delegate(string email) {
+				MFMailComposeViewController _mailController = new MFMailComposeViewController ();
+				_mailController.SetToRecipients (new string[]{email});
+				_mailController.Finished += ( object s, MFComposeResultEventArgs args) => {
+					args.Controller.DismissViewController (true, null);
+				};
+				this.PresentViewController (_mailController, true, null);
+			};
+
+			src.ViewWebsite += delegate(string url) {
+				UIApplication.SharedApplication.OpenUrl (new NSUrl ("http://" + url.Replace("http://", "")));
+			};
+
 			src.CardAddedToMyBusidex += new CardAddedToMyBusidexHandler (AddCardToMyBusidex);
 
-			this.vwSearchResults.Source = src; //new CollectionSource (cards);
+			src.CallingPhoneNumber += delegate {
+				ShowPhoneNumbers();
+			};
+			return src;
+		}
+
+		private void LoadSearchResults(List<UserCard> cards){
+
+			this.vwSearchResults.Source = ConfigureTableSourceEventHandlers(cards); //new CollectionSource (cards);
 			this.vwSearchResults.ReloadData ();
 			this.vwSearchResults.AllowsSelection = true;
 			this.vwSearchResults.SetNeedsDisplay ();
 
 			Overlay.Hide ();
-
 		}
 
 		private void AddCardToMyBusidex(UserCard userCard){

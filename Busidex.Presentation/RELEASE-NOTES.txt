@@ -1,1 +1,1 @@
-fix nulll reference on active view
+wire up events for filters and search results

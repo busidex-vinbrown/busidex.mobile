@@ -80,31 +80,11 @@ namespace Busidex.Presentation.IOS
 			base.ViewDidLoad ();
 			LoadCard ();
 
-			if (Application.MyBusidex != null) {
-				if (Application.MyBusidex.All (c => c.CardId != UserCard.CardId)) {
-					btnCard.TouchUpInside += delegate {
-						var cardOptionsController = this.Storyboard.InstantiateViewController ("CardOptionsController") as CardOptionsController;
-
-						if (cardOptionsController != null) {
-							cardOptionsController.ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
-							this.PresentViewController (cardOptionsController, true, null);
-						}
-					};
-				} else {
-					btnCard.TouchUpInside += delegate {
-						if (UserCard.Card.BackFileId.ToString () != EMPTY_CARD_ID) {
-							ToggleImage ();
-						}
-					};
+			btnCard.TouchUpInside += delegate {
+				if (UserCard.Card.BackFileId.ToString () != EMPTY_CARD_ID) {
+					ToggleImage ();
 				}
-			} else {
-				btnCard.TouchUpInside += delegate {
-					if (UserCard.Card.BackFileId.ToString () != EMPTY_CARD_ID) {
-						ToggleImage ();
-					}
-				};
-			}
-
+			};
 		}
 	}
 }

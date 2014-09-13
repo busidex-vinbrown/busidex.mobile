@@ -107,6 +107,9 @@
     <BundleResource Include="Resources\checkmark.png" />
     <BundleResource Include="Resources\maps.png" />
     <BundleResource Include="Resources\notes.png" />
+    <BundleResource Include="Resources\browser.png" />
+    <BundleResource Include="Resources\email-icon.png" />
+    <BundleResource Include="Resources\phone.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -157,14 +160,14 @@
     <Compile Include="StartupController.designer.cs">
       <DependentUpon>StartupController.cs</DependentUpon>
     </Compile>
-    <Compile Include="CardOptionsController.cs" />
-    <Compile Include="CardOptionsController.designer.cs">
-      <DependentUpon>CardOptionsController.cs</DependentUpon>
-    </Compile>
     <Compile Include="BaseController.cs" />
     <Compile Include="NotesController.cs" />
     <Compile Include="NotesController.designer.cs">
       <DependentUpon>NotesController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PhoneViewController.cs" />
+    <Compile Include="PhoneViewController.designer.cs">
+      <DependentUpon>PhoneViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

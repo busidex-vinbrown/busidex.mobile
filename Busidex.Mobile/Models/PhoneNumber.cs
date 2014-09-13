@@ -9,6 +9,7 @@ namespace Busidex.Mobile.Models
 		}
 
 		public int PhoneNumberId{ get; set; }
+		public PhoneNumberType PhoneNumberType{ get; set;}
 		public int PhoneNumberTypeId{ get; set; }
 		public long CardId{ get; set; }
 		public string Number{ get; set; }

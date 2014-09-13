@@ -11,26 +11,26 @@ using System.CodeDom.Compiler;
 
 namespace Busidex.Presentation.IOS
 {
-	[Register ("CardOptionsController")]
-	partial class CardOptionsController
+	[Register ("PhoneViewController")]
+	partial class PhoneViewController
 	{
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton btnAdd { get; set; }
+		UIImageView imgCard { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
-		UIButton btnDismiss { get; set; }
+		UIView PhoneView { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{
-			if (btnAdd != null) {
-				btnAdd.Dispose ();
-				btnAdd = null;
+			if (imgCard != null) {
+				imgCard.Dispose ();
+				imgCard = null;
 			}
-			if (btnDismiss != null) {
-				btnDismiss.Dispose ();
-				btnDismiss = null;
+			if (PhoneView != null) {
+				PhoneView.Dispose ();
+				PhoneView = null;
 			}
 		}
 	}

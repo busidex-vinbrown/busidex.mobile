@@ -28,6 +28,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\LoginResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NotesController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SaveNotesResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\PhoneNumberTypes.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />
