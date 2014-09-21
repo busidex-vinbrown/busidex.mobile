@@ -8,6 +8,7 @@ namespace Busidex.Mobile
 		{
 		}
 		public const string AuthenticationCookieName = "UserId";
+		public const string BusideRefreshCookieName = "BusidexRefresh";
 	}
 }
 

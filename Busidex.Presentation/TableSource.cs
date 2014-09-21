@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Net;
 using System.IO;
 using MonoTouch.MessageUI;
+using NewRelic;
+using Busidex.Mobile;
 
 namespace Busidex.Presentation.IOS
 {
@@ -52,6 +54,7 @@ namespace Busidex.Presentation.IOS
 		private const float FEATURE_BUTTON_MARGIN = 15f;
 		private const string NO_CARDS = "You Don't Have Any Cards In Your Collection. Search for some and add them!";
 		private const string NONE_MATCH_FILTER = "No cards match your filter";
+		private string userToken;
 
 		private enum UIElements{
 			CardImage = 1,
@@ -77,6 +80,12 @@ namespace Busidex.Presentation.IOS
 
 			Cards.AddRange (items);
 
+			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.Where(c=>c.Name == Busidex.Mobile.Resources.AuthenticationCookieName).SingleOrDefault();
+
+			if (cookie != null) {
+				userToken = cookie.Value;
+			}
+
 		}
 		public override void WillDisplay (UITableView tableView, UITableViewCell cell, NSIndexPath indexPath)
 		{
@@ -90,8 +99,6 @@ namespace Busidex.Presentation.IOS
 			
 		public override float GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
 		{
-			// In here you could customize how you want to get the height for row. Then   
-			// just return it. 
 			float baseHeight = 190f;
 			return NoCards ? baseHeight * 3 : baseHeight;
 		}
@@ -124,6 +131,8 @@ namespace Busidex.Presentation.IOS
 			this.SelectedCard = Cards[idx];
 			if (this.CardSelected != null) {
 				this.CardSelected ();
+				NewRelic.NewRelic.RecordMetricWithName (UIMetrics.CARD_CLICKED, UIMetrics.METRICS_CATEGORY, new NSNumber (1));
+				ActivityController.SaveActivity ((long)EventSources.Details, this.SelectedCard.Card.CardId, userToken);
 			}
 		}
 
@@ -131,6 +140,7 @@ namespace Busidex.Presentation.IOS
 			this.SelectedCard = Cards [idx];
 			if (this.EditingNotes != null){
 				this.EditingNotes ();
+				NewRelic.NewRelic.RecordMetricWithName (UIMetrics.NOTES_VIEWED, UIMetrics.METRICS_CATEGORY, new NSNumber (1));
 			}
 		}
 
@@ -138,20 +148,25 @@ namespace Busidex.Presentation.IOS
 			this.SelectedCard = Cards [idx];
 			if (this.CallingPhoneNumber != null){
 				this.CallingPhoneNumber ();
+				NewRelic.NewRelic.RecordMetricWithName (UIMetrics.PHONE_CALLED, UIMetrics.METRICS_CATEGORY, new NSNumber (1));
 			}
 		}
 
-		private void SendEmail(string email){
+		private async void SendEmail(string email){
 
 			if (this.SendingEmail != null){
 				this.SendingEmail (email);
+				NewRelic.NewRelic.RecordMetricWithName (UIMetrics.EMAIL_SENT, UIMetrics.METRICS_CATEGORY, new NSNumber (1));
+				await ActivityController.SaveActivity ((long)EventSources.Email, this.SelectedCard.Card.CardId, userToken);
 			}
 		}
 
-		private void ShowBrowser(string url){
+		private async void ShowBrowser(string url){
 
 			if (this.ViewWebsite != null){
 				this.ViewWebsite (url);
+				NewRelic.NewRelic.RecordMetricWithName (UIMetrics.WEBSITE_VISIT, UIMetrics.METRICS_CATEGORY, new NSNumber (1));
+				await ActivityController.SaveActivity ((long)EventSources.Website, this.SelectedCard.Card.CardId, userToken);
 			}
 		}
 
@@ -172,9 +187,6 @@ namespace Busidex.Presentation.IOS
 				view.RemoveFromSuperview ();
 			}
 
-			//cell.ImageView.Frame = frame;
-			cell.BackgroundColor = UIColor.FromPatternImage (UIImage.FromBundle ("appBackground.png"));
-
 			cell.ContentView.AddSubview (lbl);
 
 			cell.Frame = frame;
@@ -183,12 +195,14 @@ namespace Busidex.Presentation.IOS
 
 		private void AddToMyBusidex(UserCard userCard){
 
-			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.Where(c=>c.Name == "UserId").SingleOrDefault();
+			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.Where(c=>c.Name == Busidex.Mobile.Resources.AuthenticationCookieName).SingleOrDefault();
 			if (cookie != null) {
 				Busidex.Mobile.MyBusidexController ctrl = new Busidex.Mobile.MyBusidexController ();
 				ctrl.AddToMyBusidex (userCard.Card.CardId, cookie.Value);
 				if (CardAddedToMyBusidex != null) {
 					CardAddedToMyBusidex (userCard);
+					NewRelic.NewRelic.RecordMetricWithName (UIMetrics.CARD_ADDED, "UI Interactions", new NSNumber (1));
+					ActivityController.SaveActivity ((long)EventSources.Add, this.SelectedCard.Card.CardId, userToken);
 				}
 			}
 		}
@@ -411,10 +425,6 @@ namespace Busidex.Presentation.IOS
 				buttonY -= FEATURE_BUTTON_HEIGHT;
 			}
 			float buttonX =  isVertical ? CARD_WIDTH_VERTICAL + LEFT_MARGIN: LEFT_MARGIN;
-
-			//if (!card.ExistsInMyBusidex) {
-			//	buttonY += LABEL_HEIGHT;
-			//}
 				
 			var cellButtons = cell.ContentView.Subviews.Where (s => s.Tag > (int)UIElements.AddToMyBusidexButton).ToList ();
 			foreach(var button in cellButtons){

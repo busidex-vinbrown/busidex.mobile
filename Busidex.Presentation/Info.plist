@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>Busidex.Mobile</string>
+	<string>Busidex</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.busidex.mobile</string>
 	<key>CFBundleShortVersionString</key>
@@ -46,7 +46,20 @@
 	</array>
 	<key>UIStatusBarHidden</key>
 	<true/>
+	<key>CFBundleIconFiles</key>
+	<array>
+		<string>icons/busidex_icon_57x57</string>
+		<string>icons/busidex_icon_114x114</string>
+		<string>icons/busidex_icon_120x120</string>
+		<string>icons/busidex_icon_29x29</string>
+		<string>icons/busidex_icon_58x58</string>
+		<string>icons/busidex_icon_80x80</string>
+	</array>
+	<key>UIPrerenderedIcon</key>
+	<true/>
+	<key>UILaunchStoryboardName</key>
+	<string>MainStoryboard_iPhone</string>
 	<key>CFBundleVersion</key>
-	<string>24</string>
+	<string>30</string>
 </dict>
 </plist>

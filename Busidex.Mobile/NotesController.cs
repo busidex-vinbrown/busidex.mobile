@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Busidex.Mobile
 {
-	public class NotesController
+	public class NotesController : BaseController
 	{
 		public NotesController ()
 		{
@@ -17,36 +17,11 @@ namespace Busidex.Mobile
 		public async Task<string> SaveNotes(long id, string notes, string userToken){
 
 			string encodedNotes = System.Net.WebUtility.HtmlEncode (notes);
-
-			string url = "https://www.busidexapi.com/api/Notes?id=" + id + "&notes=" + encodedNotes;
-
-			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-			request.Method = "PUT";
-			request.ContentType = "application/json";
-
 			string data = @"{'id':'" + id + "','notes':'" + encodedNotes + "'}";
 
-			using (var writer = new StreamWriter (request.GetRequestStream ())) {
-				writer.Write (data);
-			}
+			string url = BASE_API_URL + "Notes?id=" + id + "&notes=" + encodedNotes;
 
-			request.Headers.Add ("X-Authorization-Token", userToken);
-
-			try {
-				WebResponse webResponse = request.GetResponse();
-				Stream webStream = webResponse.GetResponseStream();
-				StreamReader responseReader = new StreamReader(webStream);
-				string response = responseReader.ReadToEnd();
-
-				responseReader.Close();
-
-				return response;
-
-			} catch (Exception e) {
-				Console.Out.WriteLine("-----------------");
-				Console.Out.WriteLine(e.Message);
-			}
-			return string.Empty;
+			return MakeRequest (url, "PUT", userToken, data);
 		}
 	}
 }

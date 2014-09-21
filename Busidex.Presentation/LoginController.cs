@@ -33,7 +33,7 @@ namespace Busidex.Presentation.IOS
 		{
 			base.ViewDidLoad ();
 
-			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.Where(c=>c.Name == "UserId").SingleOrDefault();
+			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.Where(c=>c.Name == Busidex.Mobile.Resources.AuthenticationCookieName).SingleOrDefault();
 			long userId;
 			if (cookie != null) {
 				userId = Busidex.Mobile.Utils.DecodeUserId (cookie.Value);
@@ -67,6 +67,7 @@ namespace Busidex.Presentation.IOS
 					NSHttpCookieStorage.SharedStorage.SetCookie(cookie);
 
 					var user = NSUserDefaults.StandardUserDefaults;
+
 					user.SetString(username, "UserName");
 					user.SetString(password, "Password");
 					user.SetString(username + "@busidex.com", "Email");

@@ -5,6 +5,7 @@ using System.CodeDom.Compiler;
 using System.IO;
 using System.Linq;
 using Busidex.Mobile.Models;
+using System.Drawing;
 
 namespace Busidex.Presentation.IOS
 {
@@ -50,12 +51,20 @@ namespace Busidex.Presentation.IOS
 					ShowingFrontImage = true;
 				}
 			}
+//			var width = UIScreen.MainScreen.Bounds.Width;
+//			var height = UIScreen.MainScreen.Bounds.Height;
+//			var frame = new RectangleF (10f, 10f, width, height);
+//			btnCard.Frame = frame;
+//
+//			btnCard.SetNeedsLayout ();
 		}
 
 		public override void DidRotate(UIInterfaceOrientation orientation){
 
 
 			base.DidRotate (orientation);
+
+
 
 		}
 
@@ -78,13 +87,17 @@ namespace Busidex.Presentation.IOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			LoadCard ();
+			try{
+				LoadCard ();
 
-			btnCard.TouchUpInside += delegate {
-				if (UserCard.Card.BackFileId.ToString () != EMPTY_CARD_ID) {
-					ToggleImage ();
-				}
-			};
+				btnCard.TouchUpInside += delegate {
+					if (UserCard.Card.BackFileId.ToString () != EMPTY_CARD_ID) {
+						ToggleImage ();
+					}
+				};
+			}catch(Exception ex){
+
+			}
 		}
 	}
 }

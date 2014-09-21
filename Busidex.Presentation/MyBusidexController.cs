@@ -22,7 +22,7 @@ namespace Busidex.Presentation.IOS
 		public MyBusidexController (IntPtr handle) : base (handle)
 		{
 		}
-
+			
 		private void SetFilter(string filter){
 			FilterResults = new List<UserCard> ();
 			string loweredFilter = filter.ToLowerInvariant ();
@@ -167,7 +167,7 @@ namespace Busidex.Presentation.IOS
 		}
 
 		private void LoadMyBusidexAsync(){
-			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.Where(c=>c.Name == "UserId").SingleOrDefault();
+			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.Where(c=>c.Name == Busidex.Mobile.Resources.AuthenticationCookieName).SingleOrDefault();
 
 			if (cookie != null) {
 
@@ -176,7 +176,6 @@ namespace Busidex.Presentation.IOS
 
 				if(!string.IsNullOrEmpty(response)){
 					LoadMyBusidex (response);
-
 					SaveMyBusidexResponse (response);
 				}
 			}
@@ -190,22 +189,35 @@ namespace Busidex.Presentation.IOS
 			}
 		}
 
+		private bool CheckRefreshCookie(){
+
+			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.Where (c => c.Name == Busidex.Mobile.Resources.BusideRefreshCookieName).SingleOrDefault ();
+
+			if (cookie == null) {
+				var nCookie = new System.Net.Cookie();
+				nCookie.Name = Busidex.Mobile.Resources.BusideRefreshCookieName;
+				DateTime expiration = DateTime.Now.AddDays(1);
+				nCookie.Expires = expiration;
+
+				cookie = new NSHttpCookie (nCookie);
+
+				NSHttpCookieStorage.SharedStorage.SetCookie(cookie);
+
+				return false;
+			}
+
+			return true;
+		}
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-
-			//if (this.TableView == null) {
-			//	this.TableView = new UITableView();
-			//}
-			//if (this.SearchBar == null) {
-			//	SearchBar = new UISearchBar ();
-			//}
-
+		
 			ConfigureSearchBar ();
 
 			var fullFilePath = Path.Combine (documentsPath, Application.MY_BUSIDEX_FILE);
 			this.TableView.RegisterClassForCellReuse (typeof(UITableViewCell), BusidexCellId);
-			if (File.Exists (fullFilePath)) {
+			if (File.Exists (fullFilePath) && CheckRefreshCookie()) {
 				LoadMyBusidexFromFile (fullFilePath);
 			} else {
 				LoadMyBusidexAsync ();

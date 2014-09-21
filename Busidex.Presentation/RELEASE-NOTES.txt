@@ -1,1 +1,1 @@
-wire up events for filters and search results
+Added NewRelic and Activity events

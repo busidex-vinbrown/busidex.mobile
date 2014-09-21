@@ -8,7 +8,7 @@ using Busidex.Mobile.Models;
 
 namespace Busidex.Mobile
 {
-	public class LoginController
+	public class LoginController: BaseController
 	{
 		const string TEST_ACCOUNT_ID = "45ef6a4e-3c9d-452c-9409-9e4d7b6e532f";
 		const string LOGIN_URL = "https://www.busidexapi.com/api/Account/Login";

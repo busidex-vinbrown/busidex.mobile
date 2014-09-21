@@ -6,6 +6,7 @@ using Busidex.Mobile.Models;
 using System.Linq;
 using System.Drawing;
 using System.IO;
+using Busidex.Mobile;
 
 namespace Busidex.Presentation.IOS
 {
@@ -13,6 +14,7 @@ namespace Busidex.Presentation.IOS
 	{
 		public UserCard UserCard{ get; set; }
 		private string documentsPath;
+		private string userToken;
 
 		public PhoneViewController (IntPtr handle) : base (handle)
 		{
@@ -46,9 +48,10 @@ namespace Busidex.Presentation.IOS
 				foreach (PhoneNumber number in UserCard.Card.PhoneNumbers.Where(p=> !string.IsNullOrWhiteSpace(p.Number))) {
 
 					var newLabel = new UILabel (labelFrame);
-					var newNumber = new UITextView (phoneFrame);
+					var newNumber = UIButton.FromType (UIButtonType.System); //new UITextView (phoneFrame);
 					if (number.PhoneNumberType != null) {
 						newLabel.Text = Enum.GetName (typeof(PhoneNumberTypes), number.PhoneNumberType.PhoneNumberTypeId);
+
 						newLabel.Font = UIFont.FromName ("Helvetica", 20f);
 						newLabel.UserInteractionEnabled = true;
 						newLabel.TextColor = UIColor.FromRGB(66,69,76);
@@ -56,23 +59,21 @@ namespace Busidex.Presentation.IOS
 						var textAttributed = new NSMutableAttributedString (
 							                     number.Number, 
 							                     new UIStringAttributes () {
-								ForegroundColor = UIColor.White, 
-								Font = UIFont.FromName ("Helvetica", 22f)
+								ForegroundColor = UIColor.Blue, 
+								Font = UIFont.FromName ("Helvetica", 22f),
+								UnderlineStyle = NSUnderlineStyle.Single 
 							}
-						                     );
-
+						);
+						newNumber.SetAttributedTitle(textAttributed, UIControlState.Normal);
 						newNumber.UserInteractionEnabled = true;
-						newNumber.AttributedText = textAttributed;
-						//newNumber.Font = UIFont.FromName ("Helvetica", 22f);
-						newNumber.DataDetectorTypes = UIDataDetectorType.PhoneNumber;
+						newNumber.HorizontalAlignment = UIControlContentHorizontalAlignment.Left;
 						newNumber.UserInteractionEnabled = true;
-						newNumber.ScrollEnabled = false;
-						newNumber.Editable = false;
-						newNumber.TextColor = UIColor.White;
-						newNumber.BackgroundColor = UIColor.Clear;
-						newNumber.TextAlignment = UITextAlignment.Left;
-						newNumber.ContentInset = new UIEdgeInsets (-4, -4, 0, 0);
-
+						newNumber.Frame = phoneFrame;
+						newNumber.TouchUpInside += delegate {
+							UIApplication.SharedApplication.OpenUrl (new NSUrl ("tel:" + number.Number));
+							NewRelic.NewRelic.RecordMetricWithName (UIMetrics.WEBSITE_VISIT, UIMetrics.METRICS_CATEGORY, new NSNumber (1));
+							ActivityController.SaveActivity ((long)EventSources.Call, UserCard.Card.CardId, userToken);
+						};
 						labelFrame.Y = phoneFrame.Y += 35;
 
 						View.Add (newLabel);
@@ -89,6 +90,13 @@ namespace Busidex.Presentation.IOS
 			try{
 				documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 				LoadCard ();
+
+				NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.Where(c=>c.Name == "UserId").SingleOrDefault();
+
+				if (cookie != null) {
+					userToken = cookie.Value;
+				}
+
 			}catch(Exception ex){
 
 			}

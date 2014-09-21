@@ -36,6 +36,10 @@ namespace Busidex.Presentation.IOS
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton btnMyOrganizations { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UILabel lblLoading { get; set; }
 
 		[Outlet]
@@ -51,6 +55,10 @@ namespace Busidex.Presentation.IOS
 			if (btnGoToSearch != null) {
 				btnGoToSearch.Dispose ();
 				btnGoToSearch = null;
+			}
+			if (btnMyOrganizations != null) {
+				btnMyOrganizations.Dispose ();
+				btnMyOrganizations = null;
 			}
 			if (lblLoading != null) {
 				lblLoading.Dispose ();

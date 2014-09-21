@@ -70,6 +70,11 @@ namespace Busidex.Presentation.IOS
 				lblLoading.Hidden = false;
 				spnLoading.Hidden = false;
 			};
+
+//			btnMyOrganizations.TouchUpInside += delegate {
+//				GoToMyOrganizations();
+//			};
+
 			lblLoading.Hidden = true;
 			spnLoading.Hidden = true;
 		}
@@ -104,6 +109,15 @@ namespace Busidex.Presentation.IOS
 
 			if (searchController != null) {
 				this.NavigationController.PushViewController (searchController, true);
+			}
+		}
+
+		private void GoToMyOrganizations ()
+		{
+			var organizationsController = this.Storyboard.InstantiateViewController ("OrganizationsController") as OrganizationsController;
+
+			if (organizationsController != null && this.NavigationController.ChildViewControllers.Where(c=> c is OrganizationsController).Count() == 0){
+				this.NavigationController.PushViewController (organizationsController, true);
 			}
 		}
 
