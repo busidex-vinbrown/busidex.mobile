@@ -60,12 +60,8 @@ namespace Busidex.Presentation.IOS
 		}
 
 		public override void DidRotate(UIInterfaceOrientation orientation){
-
-
+		
 			base.DidRotate (orientation);
-
-
-
 		}
 
 		public override void ViewWillAppear (bool animated)

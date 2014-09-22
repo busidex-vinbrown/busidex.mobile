@@ -14,11 +14,6 @@ namespace Busidex.Presentation.IOS
 		{
 		}
 
-//		public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations ()
-//		{
-//			return UIInterfaceOrientationMask.Portrait;
-//		}
-
 		public BaseController ()
 		{
 		}

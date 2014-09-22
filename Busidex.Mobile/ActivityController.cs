@@ -13,7 +13,7 @@ namespace Busidex.Mobile
 		
 			string data = @"{'CardId':'" + cardId + "','UserId':null, 'EventSourceId'" + eventSourceId + "'}";
 
-			string url = BASE_API_URL + "Activity";
+			string url = Busidex.Mobile.Resources.BASE_API_URL + "Activity";
 
 			return MakeRequest (url, "POST", userToken, data);
 		}

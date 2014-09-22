@@ -39,9 +39,12 @@ namespace Busidex.Presentation.IOS
 //			});
 			NewRelic.NewRelic.StartWithApplicationToken ("AA3daf678d9a5fa49827982c9ab491f23491afb53b");
 
+			//RegisterOnSharedPreferenceChangeListener
+		     
 			return true;
 		}
 			
+
 		//
 		// This method is invoked when the application is about to move from active to inactive state.
 		//

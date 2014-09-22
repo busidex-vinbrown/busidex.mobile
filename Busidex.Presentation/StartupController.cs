@@ -43,6 +43,19 @@ namespace Busidex.Presentation.IOS
 
 		}
 
+		public override void WillRotate (UIInterfaceOrientation toInterfaceOrientation, double duration)
+		{
+			imgLogo.Hidden = toInterfaceOrientation == UIInterfaceOrientation.LandscapeLeft || toInterfaceOrientation == UIInterfaceOrientation.LandscapeRight;
+			imgLogo.SetNeedsLayout ();
+
+			base.WillRotate (toInterfaceOrientation, duration);
+		}
+
+		public override void DidRotate(UIInterfaceOrientation orientation){
+		
+			base.DidRotate (orientation);
+
+		}
 
 		private void GoToLogin ()
 		{

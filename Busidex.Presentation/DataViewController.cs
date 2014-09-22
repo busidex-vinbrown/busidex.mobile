@@ -71,6 +71,9 @@ namespace Busidex.Presentation.IOS
 				spnLoading.Hidden = false;
 			};
 
+
+
+
 //			btnMyOrganizations.TouchUpInside += delegate {
 //				GoToMyOrganizations();
 //			};
@@ -91,6 +94,21 @@ namespace Busidex.Presentation.IOS
 			base.ViewWillAppear (animated);
 			if (this.NavigationController != null) {
 				this.NavigationController.SetNavigationBarHidden (true, true);
+			}
+
+			if (this.NavigationController != null) {
+			
+				this.SetToolbarItems (new UIBarButtonItem[] {
+					new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace) { Width = 50 },
+					new UIBarButtonItem (UIBarButtonSystemItem.Compose, (s, e) => {
+						var settingsController = this.Storyboard.InstantiateViewController ("SettingsController") as SettingsController;
+
+						if (settingsController != null && this.NavigationController.ChildViewControllers.Where(c=> c is SettingsController).Count() == 0){
+							this.NavigationController.PushViewController (settingsController, true);
+						}
+					})
+				}, true);
+				this.NavigationController.SetToolbarHidden(false, true);
 			}
 		}
 

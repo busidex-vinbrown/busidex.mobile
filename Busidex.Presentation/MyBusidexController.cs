@@ -18,6 +18,8 @@ namespace Busidex.Presentation.IOS
 		public static NSString BusidexCellId = new NSString ("cellId");
 		string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 		List<UserCard> FilterResults;
+		private const string NO_CARDS = "You Don't Have Any Cards In Your Collection. Search for some and add them!";
+		MFMailComposeViewController _mailController;
 
 		public MyBusidexController (IntPtr handle) : base (handle)
 		{
@@ -48,6 +50,7 @@ namespace Busidex.Presentation.IOS
 		
 			SearchBar.Text = string.Empty;
 			TableSource src = ConfigureTableSourceEventHandlers(Application.MyBusidex);
+			src.NoCardsMessage = NO_CARDS;
 			src.IsFiltering = false;
 			TableView.Source = src;
 			TableView.ReloadData ();
@@ -66,10 +69,16 @@ namespace Busidex.Presentation.IOS
 				EditNotes();
 			};	
 			src.SendingEmail += delegate(string email) {
-				MFMailComposeViewController _mailController = new MFMailComposeViewController ();
-				_mailController.SetToRecipients (new string[]{email});
+				//this.InvokeOnMainThread( ()=> {
+					_mailController = new MFMailComposeViewController ();
+					_mailController.SetToRecipients (new string[]{email});
+				//});
+
 				_mailController.Finished += ( object s, MFComposeResultEventArgs args) => {
-					args.Controller.DismissViewController (true, null);
+
+					this.InvokeOnMainThread( ()=> {
+						args.Controller.DismissViewController (true, null);
+					});
 				};
 				this.PresentViewController (_mailController, true, null);
 			};
@@ -147,7 +156,9 @@ namespace Busidex.Presentation.IOS
 			Application.MyBusidex.AddRange (MyBusidexResponse.MyBusidex.Busidex.Where (c => c.Card != null));
 
 			if (this.TableView.Source == null) {
-				this.TableView.Source = ConfigureTableSourceEventHandlers(Application.MyBusidex);
+				var src = ConfigureTableSourceEventHandlers(Application.MyBusidex);
+				src.NoCardsMessage = NO_CARDS;
+				this.TableView.Source = src;
 			}
 			this.TableView.AllowsSelection = true;
 		}

@@ -11,7 +11,7 @@ namespace Busidex.Mobile
 
 		public string GetMyOrganizations(string userToken){
 
-			const string url = BASE_API_URL + "Organization";
+			const string url = Busidex.Mobile.Resources.BASE_API_URL + "Organization";
 			return MakeRequest (url, "GET", userToken);
 		}
 	}

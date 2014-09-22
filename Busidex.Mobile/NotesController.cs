@@ -19,7 +19,7 @@ namespace Busidex.Mobile
 			string encodedNotes = System.Net.WebUtility.HtmlEncode (notes);
 			string data = @"{'id':'" + id + "','notes':'" + encodedNotes + "'}";
 
-			string url = BASE_API_URL + "Notes?id=" + id + "&notes=" + encodedNotes;
+			string url = Busidex.Mobile.Resources.BASE_API_URL + "Notes?id=" + id + "&notes=" + encodedNotes;
 
 			return MakeRequest (url, "PUT", userToken, data);
 		}

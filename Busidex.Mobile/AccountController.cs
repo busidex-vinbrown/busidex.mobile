@@ -18,7 +18,7 @@ namespace Busidex.Mobile
 			string encodedName = System.Net.WebUtility.HtmlEncode (name);
 			string data = @"{'name':'" + name + "'}";
 
-			string url = BASE_API_URL + "Account/UpdateDisplayName?name=" + encodedName;
+			string url = Busidex.Mobile.Resources.BASE_API_URL + "Account/UpdateDisplayName?name=" + encodedName;
 
 			return MakeRequest (url, "PUT", userToken, data);
 		}

@@ -15,12 +15,12 @@ namespace Busidex.Mobile
 
 		public string GetMyBusidex(string userToken){
 
-			const string url = BASE_API_URL + "busidex?all=true";
+			const string url = Busidex.Mobile.Resources.BASE_API_URL + "busidex?all=true";
 			return MakeRequest (url, "GET", userToken);
 		}
 
 		public string AddToMyBusidex(long cardId, string userToken){
-			string url = BASE_API_URL + "busidex?userId=0&cId=" + cardId;
+			string url = Busidex.Mobile.Resources.BASE_API_URL + "busidex?userId=0&cId=" + cardId;
 
 			return MakeRequest (url, "POST", userToken);
 		}

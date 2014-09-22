@@ -9,6 +9,7 @@ namespace Busidex.Presentation.IOS
 	partial class LoginController : BaseController
 	{
 		LoadingOverlay loadingOverlay;
+		NSObject _notificationHandle;
 
 		public LoginController (IntPtr handle) : base (handle)
 		{
@@ -68,10 +69,10 @@ namespace Busidex.Presentation.IOS
 
 					var user = NSUserDefaults.StandardUserDefaults;
 
-					user.SetString(username, "UserName");
-					user.SetString(password, "Password");
-					user.SetString(username + "@busidex.com", "Email");
-					user.SetBool(true, "AutoSync");
+					user.SetString(username, Busidex.Mobile.Resources.USER_SETTING_USERNAME);
+					user.SetString(password, Busidex.Mobile.Resources.USER_SETTING_PASSWORD);
+					user.SetString(username + "@busidex.com", Busidex.Mobile.Resources.USER_SETTING_EMAIL);
+					user.SetBool(true, Busidex.Mobile.Resources.USER_SETTING_AUTOSYNC);
 					user.Synchronize();
 
 					GoToHome();

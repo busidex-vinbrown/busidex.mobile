@@ -37,6 +37,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)ActivityController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\EventSources.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\UIMetrics.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SettingsController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\BasicResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

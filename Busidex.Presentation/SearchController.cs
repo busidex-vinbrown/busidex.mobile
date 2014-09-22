@@ -37,7 +37,7 @@ namespace Busidex.Presentation.IOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			//vwSearchResults.RegisterClassForCell (typeof(SearchViewCell), cellID);
+	
 			vwSearchResults.RegisterClassForCellReuse (typeof(UITableViewCell), cellID);
 
 
@@ -48,7 +48,7 @@ namespace Busidex.Presentation.IOS
 					vwSearchResults.Hidden = false;
 					txtSearch.ResignFirstResponder(); // hide keyboard
 			};
-			//txtSearch.SearchBarStyle = UISearchBarStyle.Minimal;
+
 			txtSearch.CancelButtonClicked += delegate {
 				txtSearch.ResignFirstResponder();
 			};
@@ -84,7 +84,8 @@ namespace Busidex.Presentation.IOS
 		private TableSource ConfigureTableSourceEventHandlers(List<UserCard> data){
 			var src = new TableSource (data);
 			src.ShowNotes = false;
-			src.ShowNoCardMessage = true;
+			src.ShowNoCardMessage = data.Count() == 0;
+			src.NoCardsMessage = "No cards match your search";
 			src.CardSelected += delegate {
 				GoToCard();
 			};
@@ -112,7 +113,11 @@ namespace Busidex.Presentation.IOS
 
 		private void LoadSearchResults(List<UserCard> cards){
 
-			this.vwSearchResults.Source = ConfigureTableSourceEventHandlers(cards); //new CollectionSource (cards);
+			var src = ConfigureTableSourceEventHandlers(cards); //new CollectionSource (cards);
+			src.NoCardsMessage = "No cards match your search";
+			src.ShowNoCardMessage = cards.Count () == 0;
+			//src.ShowNoCardMessage = false;
+			this.vwSearchResults.Source = src;
 			this.vwSearchResults.ReloadData ();
 			this.vwSearchResults.AllowsSelection = true;
 			this.vwSearchResults.SetNeedsDisplay ();
@@ -145,6 +150,7 @@ namespace Busidex.Presentation.IOS
 			});
 
 			var src = new TableSource (new List<UserCard>());
+
 			this.vwSearchResults.Source = src;
 			this.vwSearchResults.ReloadData ();
 			this.vwSearchResults.AllowsSelection = true;
@@ -173,33 +179,37 @@ namespace Busidex.Presentation.IOS
 				float total = Search.SearchModel.Results.Count;
 				float processed = 0;
 
-				foreach (var item in Search.SearchModel.Results) {
-					if (item != null) {
+				if (Search.SearchModel.Results.Count () == 0) {
+					LoadSearchResults (new List<UserCard> ());
+				} else {
+					foreach (var item in Search.SearchModel.Results) {
+						if (item != null) {
 
-						var imagePath = Busidex.Mobile.Utils.CARD_PATH + item.FrontFileId + "." + item.FrontType;
-						var fName = item.FrontFileId + "." + item.FrontType;
+							var imagePath = Busidex.Mobile.Utils.CARD_PATH + item.FrontFileId + "." + item.FrontType;
+							var fName = item.FrontFileId + "." + item.FrontType;
 
-						var userCard = new UserCard ();
-						userCard.ExistsInMyBusidex = item.ExistsInMyBusidex;
-						userCard.Card = item;
-						userCard.CardId = item.CardId;
-						cards.Add (userCard);
+							var userCard = new UserCard ();
+							userCard.ExistsInMyBusidex = item.ExistsInMyBusidex;
+							userCard.Card = item;
+							userCard.CardId = item.CardId;
+							cards.Add (userCard);
 
-						if (!File.Exists (System.IO.Path.Combine (documentsPath, item.FrontFileId + "." + item.FrontType))) {
-							await Busidex.Mobile.Utils.DownloadImage (imagePath, documentsPath, fName).ContinueWith (t => {
+							if (!File.Exists (System.IO.Path.Combine (documentsPath, item.FrontFileId + "." + item.FrontType))) {
+								await Busidex.Mobile.Utils.DownloadImage (imagePath, documentsPath, fName).ContinueWith (t => {
+
+									if (++processed == total) {
+
+										this.InvokeOnMainThread (() => {
+											LoadSearchResults (cards);
+										});
+
+									} 
+								});
+							} else {
 
 								if (++processed == total) {
-
-									this.InvokeOnMainThread (() => {
-										LoadSearchResults (cards);
-									});
-
-								} 
-							});
-						} else {
-
-							if (++processed == total) {
-								LoadSearchResults (cards);
+									LoadSearchResults (cards);
+								}
 							}
 						}
 					}

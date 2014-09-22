@@ -38,6 +38,7 @@ namespace Busidex.Presentation.IOS
 		private bool NoCards;
 		public bool IsFiltering{ get; set;}
 		public bool ShowNoCardMessage{ get; set; }
+		public string NoCardsMessage{ get; set;}
 		public bool ShowNotes{ get; set;}
 		public event CardAddedToMyBusidexHandler CardAddedToMyBusidex;
 		private UIColor CELL_BACKGROUND_COLOR = UIColor.FromRGB (240, 236, 236);
@@ -52,7 +53,7 @@ namespace Busidex.Presentation.IOS
 		private const float FEATURE_BUTTON_HEIGHT = 40f;
 		private const float FEATURE_BUTTON_WIDTH = 40f;
 		private const float FEATURE_BUTTON_MARGIN = 15f;
-		private const string NO_CARDS = "You Don't Have Any Cards In Your Collection. Search for some and add them!";
+
 		private const string NONE_MATCH_FILTER = "No cards match your filter";
 		private string userToken;
 
@@ -116,7 +117,7 @@ namespace Busidex.Presentation.IOS
 				cellCache.Add (cell);
 			} 
 
-			if (NoCards && ShowNoCardMessage) {
+			if (NoCards) {
 				LoadNoCardMessage (cell);
 			} else {
 				AddControls (cell, card, indexPath.Row);
@@ -157,7 +158,10 @@ namespace Busidex.Presentation.IOS
 			if (this.SendingEmail != null){
 				this.SendingEmail (email);
 				NewRelic.NewRelic.RecordMetricWithName (UIMetrics.EMAIL_SENT, UIMetrics.METRICS_CATEGORY, new NSNumber (1));
-				await ActivityController.SaveActivity ((long)EventSources.Email, this.SelectedCard.Card.CardId, userToken);
+				var card = Cards.Where (c => c.Card.Email != null && c.Card.Email.Equals (email)).SingleOrDefault ();
+				if (card != null) {
+					ActivityController.SaveActivity ((long)EventSources.Email, card.CardId, userToken);
+				}
 			}
 		}
 
@@ -166,7 +170,10 @@ namespace Busidex.Presentation.IOS
 			if (this.ViewWebsite != null){
 				this.ViewWebsite (url);
 				NewRelic.NewRelic.RecordMetricWithName (UIMetrics.WEBSITE_VISIT, UIMetrics.METRICS_CATEGORY, new NSNumber (1));
-				await ActivityController.SaveActivity ((long)EventSources.Website, this.SelectedCard.Card.CardId, userToken);
+				var card = Cards.Where (c => c.Card.Url.Equals (url)).SingleOrDefault ();
+				if (card != null) {
+					ActivityController.SaveActivity ((long)EventSources.Website, card.CardId, userToken);
+				}
 			}
 		}
 
@@ -178,7 +185,7 @@ namespace Busidex.Presentation.IOS
 			var frame = new RectangleF (10f, 10f, labelWidth, labelHeight);
 
 			UILabel lbl = new UILabel (frame);
-			lbl.Text = IsFiltering ? NONE_MATCH_FILTER : NO_CARDS;
+			lbl.Text = IsFiltering ? NONE_MATCH_FILTER : NoCardsMessage;
 			lbl.TextAlignment = UITextAlignment.Center;
 			lbl.Font = UIFont.FromName ("Helvetica", 17f);
 			lbl.Lines = 3;
@@ -186,7 +193,7 @@ namespace Busidex.Presentation.IOS
 			foreach(var view in cell.ContentView.Subviews){
 				view.RemoveFromSuperview ();
 			}
-
+			lbl.Tag = -1;
 			cell.ContentView.AddSubview (lbl);
 
 			cell.Frame = frame;
@@ -221,6 +228,8 @@ namespace Busidex.Presentation.IOS
 						this.InvokeOnMainThread( ()=>{
 							var url = new NSUrl("http://www.maps.google.com/?saddr=" + System.Net.WebUtility.UrlEncode(address.Trim()));
 							UIApplication.SharedApplication.OpenUrl(url);
+							NewRelic.NewRelic.RecordMetricWithName (UIMetrics.CARD_MAPPED, UIMetrics.METRICS_CATEGORY, new NSNumber (1));
+							ActivityController.SaveActivity ((long)EventSources.Map, card.Card.CardId, userToken);
 						});	
 					};
 						
@@ -459,6 +468,10 @@ namespace Busidex.Presentation.IOS
 					? new RectangleF (CARD_WIDTH_HORIZONTAL + LEFT_MARGIN + 5f, 10f, LABEL_WIDTH, LABEL_HEIGHT)
 					: new RectangleF (CARD_WIDTH_VERTICAL + LEFT_MARGIN + 5f, 10f, LABEL_WIDTH, LABEL_HEIGHT);
 
+				var noCardLabel = cell.ContentView.Subviews.Where (v => v.Tag == -1).SingleOrDefault ();
+				if(noCardLabel != null){
+					noCardLabel.RemoveFromSuperview ();
+				}
 				AddCardImageButton (card, cell, idx);
 				AddNameLabel (card, cell, ref frame);
 				AddCompanyLabel (card, cell, ref frame);

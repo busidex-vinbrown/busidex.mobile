@@ -1,1 +1,1 @@
-Added NewRelic and Activity events
+metrics for maps

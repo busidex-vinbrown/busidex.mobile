@@ -22,6 +22,10 @@ namespace Busidex.Presentation.IOS
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton btnStart { get; set; }
 
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIImageView imgLogo { get; set; }
+
 		void ReleaseDesignerOutlets ()
 		{
 			if (btnConnect != null) {
@@ -31,6 +35,10 @@ namespace Busidex.Presentation.IOS
 			if (btnStart != null) {
 				btnStart.Dispose ();
 				btnStart = null;
+			}
+			if (imgLogo != null) {
+				imgLogo.Dispose ();
+				imgLogo = null;
 			}
 		}
 	}

@@ -9,7 +9,7 @@ namespace Busidex.Mobile
 		public BaseController ()
 		{
 		}
-		protected const string BASE_API_URL = "https://www.busidexapi.com/api/";
+
 
 		protected static string MakeRequest(string url, string method, string token, string data = null){
 			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
@@ -27,7 +27,6 @@ namespace Busidex.Mobile
 				requestWriter.Write("{}");
 				request.ContentType = "application/json";
 				requestWriter.Close();
-
 			}
 
 			try {
@@ -41,8 +40,7 @@ namespace Busidex.Mobile
 				return response;
 
 			} catch (Exception e) {
-				Console.Out.WriteLine("-----------------");
-				Console.Out.WriteLine(e.Message);
+				NewRelic.NRLogger.Log ((uint)NewRelic.NRLogLevels.Error, e.Source, 14, "MakeRequest", e.Message);
 			}
 			return string.Empty;
 		}

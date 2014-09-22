@@ -128,6 +128,8 @@
     <BundleResource Include="Resources\icons\busidex_splash_640x1136.png" />
     <BundleResource Include="Resources\icons\busidex_artwork_512x512.png" />
     <BundleResource Include="Resources\icons\busidex_artwork_1024x1024.png" />
+    <BundleResource Include="Resources\Busidex Logo Concepts.png" />
+    <BundleResource Include="Resources\settings.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -224,6 +226,10 @@
       <DependentUpon>OrganizationsController.cs</DependentUpon>
     </Compile>
     <Compile Include="OrganizationTableSource.cs" />
+    <Compile Include="SettingsController.cs" />
+    <Compile Include="SettingsController.designer.cs">
+      <DependentUpon>SettingsController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />
