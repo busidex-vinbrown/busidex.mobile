@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Busidex.Mobile
 {
@@ -11,14 +12,15 @@ namespace Busidex.Mobile
 		}
 
 
-		protected static string MakeRequest(string url, string method, string token, string data = null){
+		protected static async Task<string> MakeRequest(string url, string method, string token, string data = null){
 			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
 			request.Method = method;
 
 			if(data != null){
-				using (var writer = new StreamWriter (request.GetRequestStream ())) {
-					writer.Write (data);
-				}
+				var writer = new StreamWriter (request.GetRequestStream (), System.Text.Encoding.ASCII);
+				writer.Write (data);
+				request.ContentType = "application/json";
+				writer.Close ();
 			}
 			request.Headers.Add ("X-Authorization-Token", token);
 

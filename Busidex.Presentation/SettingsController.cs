@@ -27,9 +27,9 @@ namespace Busidex.Presentation.IOS
 					string token = cookie.Value;
 
 					var user = NSUserDefaults.StandardUserDefaults;
-					string oldUserName = user.StringForKey("UserName");
-					string oldPassword = user.StringForKey("Password");
-					string oldEmail = user.StringForKey("Email");
+					string oldUserName = user.StringForKey(Busidex.Mobile.Resources.USER_SETTING_USERNAME);
+					string oldPassword = user.StringForKey(Busidex.Mobile.Resources.USER_SETTING_PASSWORD);
+					string oldEmail = user.StringForKey(Busidex.Mobile.Resources.USER_SETTING_EMAIL);
 
 					string newUsername = txtUserName.Text;
 					string newPassword = txtPassword.Text;
@@ -40,7 +40,7 @@ namespace Busidex.Presentation.IOS
 						user.SetString(newUsername, Busidex.Mobile.Resources.USER_SETTING_USERNAME);
 					}
 					if(!oldPassword.Equals(newPassword)){
-						var passwordResponse = Busidex.Mobile.SettingsController.ChangePassword(newPassword, token);
+						var passwordResponse = Busidex.Mobile.SettingsController.ChangePassword(oldPassword, newPassword, token);
 						user.SetString(newPassword, Busidex.Mobile.Resources.USER_SETTING_PASSWORD);
 					}
 					if(!oldEmail.Equals(newEmail)){
@@ -59,9 +59,9 @@ namespace Busidex.Presentation.IOS
 			}
 
 			var user = NSUserDefaults.StandardUserDefaults;
-			string oldUserName = user.StringForKey("UserName");
-			string oldPassword = user.StringForKey("Password");
-			string oldEmail = user.StringForKey("Email");
+			string oldUserName = user.StringForKey(Busidex.Mobile.Resources.USER_SETTING_USERNAME);
+			string oldPassword = user.StringForKey(Busidex.Mobile.Resources.USER_SETTING_PASSWORD);
+			string oldEmail = user.StringForKey(Busidex.Mobile.Resources.USER_SETTING_EMAIL);
 
 			txtUserName.Text = oldUserName;
 			txtPassword.Text = oldPassword;

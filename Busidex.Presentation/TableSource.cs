@@ -168,9 +168,9 @@ namespace Busidex.Presentation.IOS
 		private async void ShowBrowser(string url){
 
 			if (this.ViewWebsite != null){
-				this.ViewWebsite (url);
+				this.ViewWebsite (url.Replace("http://", "").Replace("https://",""));
 				NewRelic.NewRelic.RecordMetricWithName (UIMetrics.WEBSITE_VISIT, UIMetrics.METRICS_CATEGORY, new NSNumber (1));
-				var card = Cards.Where (c => c.Card.Url.Equals (url)).SingleOrDefault ();
+				var card = Cards.Where (c => c.Card.Url != null && c.Card.Url.Equals (url)).SingleOrDefault ();
 				if (card != null) {
 					ActivityController.SaveActivity ((long)EventSources.Website, card.CardId, userToken);
 				}
@@ -209,7 +209,7 @@ namespace Busidex.Presentation.IOS
 				if (CardAddedToMyBusidex != null) {
 					CardAddedToMyBusidex (userCard);
 					NewRelic.NewRelic.RecordMetricWithName (UIMetrics.CARD_ADDED, "UI Interactions", new NSNumber (1));
-					ActivityController.SaveActivity ((long)EventSources.Add, this.SelectedCard.Card.CardId, userToken);
+					ActivityController.SaveActivity ((long)EventSources.Add, userCard.Card.CardId, userToken);
 				}
 			}
 		}

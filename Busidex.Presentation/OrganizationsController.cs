@@ -40,8 +40,8 @@ namespace Busidex.Presentation.IOS
 			if (cookie != null) {
 				var controller = new Busidex.Mobile.OrganizationController ();
 				var response = controller.GetMyOrganizations (cookie.Value);
-				if (!string.IsNullOrEmpty (response)) {
-					OrganizationResponse MyOrganizationsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrganizationResponse> (response);
+				if (!string.IsNullOrEmpty (response.Result)) {
+					OrganizationResponse MyOrganizationsResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<OrganizationResponse> (response.Result);
 					string documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 					foreach(Organization org in MyOrganizationsResponse.Model){
 						var fileName = org.LogoFileName + "." + org.LogoType;

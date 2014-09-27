@@ -40,7 +40,7 @@ namespace Busidex.Mobile
 
 			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
 			request.Method = "POST";
-			request.ContentType = contentType;// "application/x-www-form-urlencoded";// "application/json"; 
+			request.ContentType = contentType;
 			request.ContentLength = data.Length;
 			StreamWriter requestWriter = new StreamWriter(request.GetRequestStream(), System.Text.Encoding.ASCII);
 			requestWriter.Write(data);
@@ -56,12 +56,9 @@ namespace Busidex.Mobile
 				userId = loginResponse != null ? loginResponse.UserId : 0;
 
 				responseReader.Close();
-				//var response = (new WebClient()).UploadString(URL, DATA);
-				//long.TryParse(response, out userId);
 
 			} catch (Exception e) {
-				Console.Out.WriteLine("-----------------");
-				Console.Out.WriteLine(e.Message);
+
 			}
 
 			return userId;

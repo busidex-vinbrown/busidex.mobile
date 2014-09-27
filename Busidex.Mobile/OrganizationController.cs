@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Busidex.Mobile
 {
@@ -9,10 +10,10 @@ namespace Busidex.Mobile
 		{
 		}
 
-		public string GetMyOrganizations(string userToken){
+		public async Task<string> GetMyOrganizations(string userToken){
 
 			const string url = Busidex.Mobile.Resources.BASE_API_URL + "Organization";
-			return MakeRequest (url, "GET", userToken);
+			return await MakeRequest (url, "GET", userToken);
 		}
 	}
 }

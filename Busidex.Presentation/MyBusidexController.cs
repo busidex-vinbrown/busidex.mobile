@@ -69,10 +69,9 @@ namespace Busidex.Presentation.IOS
 				EditNotes();
 			};	
 			src.SendingEmail += delegate(string email) {
-				//this.InvokeOnMainThread( ()=> {
-					_mailController = new MFMailComposeViewController ();
-					_mailController.SetToRecipients (new string[]{email});
-				//});
+			
+				_mailController = new MFMailComposeViewController ();
+				_mailController.SetToRecipients (new string[]{email});
 
 				_mailController.Finished += ( object s, MFComposeResultEventArgs args) => {
 
@@ -94,13 +93,10 @@ namespace Busidex.Presentation.IOS
 		}
 
 		private void ConfigureSearchBar(){
-			//SearchBar = new UISearchBar ();
-			SearchBar.Placeholder = "Filter";
 
+			SearchBar.Placeholder = "Filter";
 			SearchBar.BarStyle = UIBarStyle.Default;
-			//SearchBar.ShowsSearchResultsButton = true;
 			SearchBar.ShowsCancelButton = true;
-			//SearchBar.Frame = new System.Drawing.RectangleF (0, 0, UIScreen.MainScreen.Bounds.Width, 40);
 
 			SearchBar.SearchButtonClicked += delegate {
 				SetFilter(SearchBar.Text);
@@ -116,8 +112,6 @@ namespace Busidex.Presentation.IOS
 		{
 			// Releases the view if it doesn't have a superview.
 			base.DidReceiveMemoryWarning ();
-
-			// Release any cached data, images, etc that aren't in use.
 		}
 
 		private void GoToCard(){
@@ -185,9 +179,9 @@ namespace Busidex.Presentation.IOS
 				var ctrl = new Busidex.Mobile.MyBusidexController ();
 				var response = ctrl.GetMyBusidex (cookie.Value);
 
-				if(!string.IsNullOrEmpty(response)){
-					LoadMyBusidex (response);
-					SaveMyBusidexResponse (response);
+				if(!string.IsNullOrEmpty(response.Result)){
+					LoadMyBusidex (response.Result);
+					SaveMyBusidexResponse (response.Result);
 				}
 			}
 		}
@@ -200,25 +194,7 @@ namespace Busidex.Presentation.IOS
 			}
 		}
 
-		private bool CheckRefreshCookie(){
 
-			NSHttpCookie cookie = NSHttpCookieStorage.SharedStorage.Cookies.Where (c => c.Name == Busidex.Mobile.Resources.BusideRefreshCookieName).SingleOrDefault ();
-
-			if (cookie == null) {
-				var nCookie = new System.Net.Cookie();
-				nCookie.Name = Busidex.Mobile.Resources.BusideRefreshCookieName;
-				DateTime expiration = DateTime.Now.AddDays(1);
-				nCookie.Expires = expiration;
-
-				cookie = new NSHttpCookie (nCookie);
-
-				NSHttpCookieStorage.SharedStorage.SetCookie(cookie);
-
-				return false;
-			}
-
-			return true;
-		}
 
 		public override void ViewDidLoad ()
 		{
@@ -228,13 +204,11 @@ namespace Busidex.Presentation.IOS
 
 			var fullFilePath = Path.Combine (documentsPath, Application.MY_BUSIDEX_FILE);
 			this.TableView.RegisterClassForCellReuse (typeof(UITableViewCell), BusidexCellId);
-			if (File.Exists (fullFilePath) && CheckRefreshCookie()) {
+			if (File.Exists (fullFilePath)) {
 				LoadMyBusidexFromFile (fullFilePath);
 			} else {
 				LoadMyBusidexAsync ();
 			}
 		}
-
-
 	}
 }

@@ -44,7 +44,7 @@ namespace Busidex.Presentation.IOS
 						var myBusidexJson = myBusidexFile.ReadToEnd ();
 						MyBusidexResponse myBusidexResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<MyBusidexResponse> (myBusidexJson);
 						foreach(var uc in myBusidexResponse.MyBusidex.Busidex){
-							if(uc.UserCardId == UserCard.UserCardId){
+							if(uc.Card.CardId == UserCard.Card.CardId){
 								userCard = uc;
 								break;
 							}

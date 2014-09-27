@@ -93,19 +93,33 @@ namespace Busidex.Presentation.IOS
 			return string.Empty;
 		}
 
+		private void UpdateSharedStorageData(string userId){
+			var user = NSUserDefaults.StandardUserDefaults;
+
+			user.SetString(userId, Busidex.Mobile.Resources.USER_SETTING_USERNAME);
+			user.SetString(userId, Busidex.Mobile.Resources.USER_SETTING_PASSWORD);
+			user.SetString(userId + "@busidex.com", Busidex.Mobile.Resources.USER_SETTING_EMAIL);
+			user.SetBool(true, Busidex.Mobile.Resources.USER_SETTING_AUTOSYNC);
+			user.Synchronize();
+		}
+
 		private void DoLogin(){
 			string uidId = GetDeviceId ();
+			uidId = (DEVELOPMENT_MODE ? TEST_ACCOUNT_ID : uidId);
+
 			var userId = Busidex.Mobile.LoginController.AutoLogin (uidId);
 			if (userId > 0) {
 				var nCookie = new System.Net.Cookie();
 
-				nCookie.Name = "UserId";
+				nCookie.Name = Busidex.Mobile.Resources.AuthenticationCookieName;
 				DateTime expiration = DateTime.Now.AddYears(1);
 				nCookie.Expires = expiration;
 				nCookie.Value = EncodeUserId(userId);
 				var cookie = new NSHttpCookie(nCookie);
 
 				NSHttpCookieStorage.SharedStorage.SetCookie(cookie);
+
+				UpdateSharedStorageData (uidId);
 			}
 		}
 	}
