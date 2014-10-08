@@ -110,7 +110,6 @@
     <BundleResource Include="Resources\notes.png" />
     <BundleResource Include="Resources\browser.png" />
     <BundleResource Include="Resources\email-icon.png" />
-    <BundleResource Include="Resources\phone.png" />
     <BundleResource Include="Resources\Busidex-icon.png" />
     <BundleResource Include="Resources\card-ring.png" />
     <BundleResource Include="Resources\fb.png" />
@@ -136,38 +135,6 @@
     <None Include="Entitlements.plist" />
     <None Include="RELEASE-NOTES.txt" />
     <None Include="packages.config" />
-    <None Include="NewRelicAgent.framework\Headers\NRConstants.h" />
-    <None Include="NewRelicAgent.framework\Headers\NRCustomMetrics.h" />
-    <None Include="NewRelicAgent.framework\Headers\NRGCDOverride.h" />
-    <None Include="NewRelicAgent.framework\Headers\NRLogger.h" />
-    <None Include="NewRelicAgent.framework\Headers\NRTimer.h" />
-    <None Include="NewRelicAgent.framework\Headers\NRURLSessionTaskDelegateBase.h" />
-    <None Include="NewRelicAgent.framework\Headers\NewRelic.h" />
-    <None Include="NewRelicAgent.framework\Headers\NewRelicAgent.h" />
-    <None Include="NewRelicAgent.framework\Headers\NewRelicFeatureFlags.h" />
-    <None Include="NewRelicAgent.framework\Resources\Info.plist" />
-    <None Include="NewRelicAgent.framework\Versions\A\NewRelicAgent" />
-    <None Include="NewRelicAgent.framework\Versions\A\Headers\NRConstants.h" />
-    <None Include="NewRelicAgent.framework\Versions\A\Headers\NRCustomMetrics.h" />
-    <None Include="NewRelicAgent.framework\Versions\A\Headers\NRGCDOverride.h" />
-    <None Include="NewRelicAgent.framework\Versions\A\Headers\NRLogger.h" />
-    <None Include="NewRelicAgent.framework\Versions\A\Headers\NRTimer.h" />
-    <None Include="NewRelicAgent.framework\Versions\A\Headers\NRURLSessionTaskDelegateBase.h" />
-    <None Include="NewRelicAgent.framework\Versions\A\Headers\NewRelic.h" />
-    <None Include="NewRelicAgent.framework\Versions\A\Headers\NewRelicAgent.h" />
-    <None Include="NewRelicAgent.framework\Versions\A\Headers\NewRelicFeatureFlags.h" />
-    <None Include="NewRelicAgent.framework\Versions\A\Resources\Info.plist" />
-    <None Include="NewRelicAgent.framework\Versions\Current\NewRelicAgent" />
-    <None Include="NewRelicAgent.framework\Versions\Current\Headers\NRConstants.h" />
-    <None Include="NewRelicAgent.framework\Versions\Current\Headers\NRCustomMetrics.h" />
-    <None Include="NewRelicAgent.framework\Versions\Current\Headers\NRGCDOverride.h" />
-    <None Include="NewRelicAgent.framework\Versions\Current\Headers\NRLogger.h" />
-    <None Include="NewRelicAgent.framework\Versions\Current\Headers\NRTimer.h" />
-    <None Include="NewRelicAgent.framework\Versions\Current\Headers\NRURLSessionTaskDelegateBase.h" />
-    <None Include="NewRelicAgent.framework\Versions\Current\Headers\NewRelic.h" />
-    <None Include="NewRelicAgent.framework\Versions\Current\Headers\NewRelicAgent.h" />
-    <None Include="NewRelicAgent.framework\Versions\Current\Headers\NewRelicFeatureFlags.h" />
-    <None Include="NewRelicAgent.framework\Versions\Current\Resources\Info.plist" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -234,16 +201,10 @@
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard_iPad.storyboard" />
     <InterfaceDefinition Include="MainStoryboard_iPhone.storyboard" />
-    <InterfaceDefinition Include="NewRelicAgent.framework\NewRelicAgent" />
   </ItemGroup>
   <Import Project="..\Busidex.Mobile\Busidex.Mobile.projitems" Label="Shared" Condition="Exists('..\Busidex.Mobile\Busidex.Mobile.projitems')" />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="Resources\Cards\" />
-    <Folder Include="Resources\icons\" />
-    <Folder Include="NewRelicAgent.framework\" />
-  </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />
     <ITunesArtwork Include="iTunesArtwork%402x" />

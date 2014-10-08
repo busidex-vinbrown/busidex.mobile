@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">Busidex</string>
+	<string name="start.label.welcome">Thanks for downloading the Busidex App! Choose one of the following to begin...</string>
+	<string name="start.label.existing">Already a Busidex User?</string>
+	<string name="start.label.new">New to Busidex?</string>
+	<string name="start.button.existing">Connect to Your Account</string>
+	<string name="start.button.new">Start Using the App!</string>
+</resources>

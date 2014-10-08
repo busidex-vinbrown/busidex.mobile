@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ffffffff">
+    <ImageView
+        android:src="@drawable/BusidexLogoConcepts"
+        android:layout_width="172.1dp"
+        android:layout_height="169.1dp"
+        android:id="@+id/imageView1"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="false"
+        android:cropToPadding="false"
+        android:layout_marginLeft="110dp"
+        android:layout_marginTop="20dp" />
+</LinearLayout>

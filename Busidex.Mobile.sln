@@ -5,6 +5,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Busidex.Mobile", "Busidex.M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Busidex.Presentation.IOS", "Busidex.Presentation\Busidex.Presentation.IOS.csproj", "{3B873BA5-E230-40BC-9C9B-DEBC82B3E0E6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Busidex.Presentation.Android", "Busidex.Mobile.Android\Busidex.Presentation.Android.csproj", "{9A5CBD27-0C11-417A-921A-639268E45583}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|iPhoneSimulator = Debug|iPhoneSimulator
@@ -27,8 +29,20 @@ Global
 		{3B873BA5-E230-40BC-9C9B-DEBC82B3E0E6}.Release|iPhone.Build.0 = Release|iPhone
 		{3B873BA5-E230-40BC-9C9B-DEBC82B3E0E6}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
 		{3B873BA5-E230-40BC-9C9B-DEBC82B3E0E6}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+		{9A5CBD27-0C11-417A-921A-639268E45583}.Ad-Hoc|iPhone.ActiveCfg = Debug|Any CPU
+		{9A5CBD27-0C11-417A-921A-639268E45583}.Ad-Hoc|iPhone.Build.0 = Debug|Any CPU
+		{9A5CBD27-0C11-417A-921A-639268E45583}.AppStore|iPhone.ActiveCfg = Debug|Any CPU
+		{9A5CBD27-0C11-417A-921A-639268E45583}.AppStore|iPhone.Build.0 = Debug|Any CPU
+		{9A5CBD27-0C11-417A-921A-639268E45583}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{9A5CBD27-0C11-417A-921A-639268E45583}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{9A5CBD27-0C11-417A-921A-639268E45583}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{9A5CBD27-0C11-417A-921A-639268E45583}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{9A5CBD27-0C11-417A-921A-639268E45583}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{9A5CBD27-0C11-417A-921A-639268E45583}.Release|iPhone.Build.0 = Release|Any CPU
+		{9A5CBD27-0C11-417A-921A-639268E45583}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{9A5CBD27-0C11-417A-921A-639268E45583}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Busidex.Presentation\Busidex.Presentation.IOS.csproj
+		StartupItem = Busidex.Mobile.Android\Busidex.Presentation.Android.csproj
 	EndGlobalSection
 EndGlobal

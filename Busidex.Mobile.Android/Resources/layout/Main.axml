@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ffffffff">
+    <TextView
+        android:text="@string/start.label.welcome"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="280.0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView1"
+        android:gravity="center"
+        android:textColor="#ff3d3d3d"
+        android:layout_marginTop="35dp"
+        android:layout_marginLeft="50dp"
+        android:inputType="none" />
+    <TextView
+        android:text="@string/start.label.existing"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:gravity="center"
+        android:textColor="#ff0000ff"
+        android:layout_marginTop="50dp"
+        android:inputType="none" />
+    <Button
+        android:id="@+id/btnConnect"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:text="@string/start.button.existing"
+        android:textAllCaps="true"
+        android:layout_marginLeft="50dp"
+        android:textColor="#ff0000ff"
+        android:textStyle="normal"
+        android:textSize="8pt"
+        android:background="#ffe3e3d3" />
+    <TextView
+        android:text="@string/start.label.new"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:textColor="#ff0000ff"
+        android:inputType="none" />
+    <Button
+        android:text="@string/start.button.new"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnStart"
+        android:textColor="#ff0000ff"
+        android:layout_marginLeft="50dp"
+        android:textSize="8pt"
+        android:background="#ffe3e3e3" />
+    <ImageView
+        android:src="@drawable/BusidexLogoConcepts"
+        android:layout_width="172.1dp"
+        android:layout_height="169.1dp"
+        android:id="@+id/imageView1"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="false"
+        android:cropToPadding="false"
+        android:layout_marginLeft="110dp"
+        android:layout_marginTop="20dp" />
+</LinearLayout>
